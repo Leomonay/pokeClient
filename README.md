@@ -1,0 +1,2 @@
+# pokeClient
+Client for Pokedex
