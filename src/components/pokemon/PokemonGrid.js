@@ -37,7 +37,7 @@ export default function PokemonGrid (){
         }
         setIdArray(pokemonsToShow)
     }
-    useEffect(() => {getIdArray(); console.log(pokedexPageSize)}, [pokedexPage, pokedexPageSize, base])
+    useEffect(() => {getIdArray()}, [pokedexPage, pokedexPageSize, base])
     useEffect(() => getTotalPages(), [pokedexPageSize, base, totalPokes])
 
     function setPage(e){

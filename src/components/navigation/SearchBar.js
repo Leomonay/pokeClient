@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PokeCard from '../pokemon/PokeCard';
 import appConfig from '../../config'
 import './SearchBar.css'
@@ -28,13 +28,18 @@ export default function SearchBar() {
         setDisplaySuccess('none')
         setDisplayError('none')
     }
+    useEffect(()=>document.getElementById('inputName').addEventListener(
+        "keydown",(e)=>{
+            if (e.code == "Enter")handleSubmit()
+        }
+    ),[])
 
     return (
             <div className='pokeDexSearch'>
-                Find by name: 
-                <input className='searchInput' id='inputName' type='text' placeholder='type exact name'/>
+                <input className='searchInput' id='inputName' type='text' placeholder='type exact name'
+                    // onKeyPress={(event)=>{if (event.code == 13)  handleSubmit()}}
+                />
                 <button type='submit' className='searchButton' onClick={handleSubmit}>Search</button>
-                
 
                 <div className='modal errorModal' id='errorModal' style={{display: displayError}}>
                     <h3>Pokemon Not Found</h3>
