@@ -77,8 +77,9 @@ export default function CreatePokemon() {
         }
         setStatErrors(errors)
     }
+
     useEffect(()=>{
-        handleErrors();
+        handleErrors()        
     },[newPokemon])
  
     function sendPokemon(){

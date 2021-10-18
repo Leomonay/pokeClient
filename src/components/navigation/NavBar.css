@@ -42,7 +42,6 @@
     display: flex;
     width: calc(70% - 2rem);
     border-bottom: 3px solid black;
-    height: calc( 100% - .1rem -1px);
     display: flex;
     align-items: center;
     justify-content: flex-end;

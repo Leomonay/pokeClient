@@ -49,7 +49,13 @@ export default function Detail() {
             setDetail(pokemon)
         })
     }
-    useEffect(()=>getDetail(),[id])
+
+    useEffect(()=>{
+        function effect(){
+            getDetail()
+        };
+        effect();
+    },[id])
 
     if(!detail.id)return<>loading</>
     return (

@@ -1,9 +1,12 @@
 .landingBackground{
-    background: linear-gradient(-30deg, yellow, lightyellow, yellow);
+    /* background: linear-gradient(-30deg, yellow, lightyellow, yellow); */
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
+    background-image: url('https://w0.peakpx.com/wallpaper/240/955/HD-wallpaper-pokeballs-3d-3d-ball-pokeball-pokemon.jpg');
+    background-size: cover;
+    background-position: center;
 }
 .pokedex{
     max-width: 30rem;
