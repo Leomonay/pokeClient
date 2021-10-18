@@ -53,6 +53,7 @@
     background-color: darkred;
     width: 20%;
     margin-left: -1px;
+    border-bottom: 3px solid black;
 }
 .border1{
     width: 30%;
