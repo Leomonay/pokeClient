@@ -37,7 +37,7 @@ export default function PokemonGrid (){
         }
         setIdArray(pokemonsToShow)
     }
-    useEffect(() => getIdArray(), [pokedexPage, pokedexPageSize, base])
+    useEffect(() => {getIdArray(); console.log(pokedexPageSize)}, [pokedexPage, pokedexPageSize, base])
     useEffect(() => getTotalPages(), [pokedexPageSize, base, totalPokes])
 
     function setPage(e){
@@ -46,9 +46,16 @@ export default function PokemonGrid (){
     }
 
     function changePageSize(e){
-        let step = 6*parseInt(e.target.id)
-        let newSize = Math.max(6, pokedexPageSize+step)
-        document.getElementById('sizeInput').value=newSize
+        let newSize=0
+        console.log(e.target.className==='sizeButton')
+        if(e.target.className==='sizeButton'){
+            let step = 6*parseInt(e.target.id)
+            newSize = Math.max(6, pokedexPageSize+step)
+            document.getElementById('sizeInput').value=newSize
+        }else{
+            newSize=e.target.value? Math.max(1,parseInt(e.target.value)):1
+        }
+        console.log('newSize',newSize)
         dispatch(setPokedexPageSize(newSize))
     }
 
@@ -107,6 +114,7 @@ export default function PokemonGrid (){
                         <button className='sizeButton' id='-1' onClick={e=>changePageSize(e)}>&#9660;</button>
                         <input
                             className='itemsByPage'
+                            onChange={(e)=>changePageSize(e)}
                             id='sizeInput'
                             />
                         <button className='sizeButton' id='+1' onClick={e=>changePageSize(e)}>&#9650;</button>

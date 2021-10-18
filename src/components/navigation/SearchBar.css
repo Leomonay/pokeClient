@@ -1,8 +1,13 @@
 .pokeDexSearch, .searchInput{
     font-size: 1.1rem;
-    font-weight: bold;
     display: flex;
     margin: .2rem;
+}
+.pokeDexSearch{
+    font-weight: bold;
+}
+.searchInput{
+    font-weight: lighter;
 }
 .searchButton{
     background: linear-gradient(-45deg, blue, cyan, blue);

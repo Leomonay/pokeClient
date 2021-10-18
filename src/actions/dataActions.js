@@ -5,6 +5,7 @@ export function setPokedexPage(page){
     }
 }
 export function setPokedexPageSize(size){
+    console.log('size',size)
     return{
         type: 'PAGE_SIZE',
         payload: size 
