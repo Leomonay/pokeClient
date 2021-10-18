@@ -33,3 +33,6 @@ The app must have 4 pages:
   - The images are displayed when the url is set.
   - A log of errors are displayed at bottom of the page (bottom left in desk view).
   - If there is no errors, the create button is shown in the same box.
+
+## Image
+![projectThumbnail](https://raw.githubusercontent.com/Leomonay/pokeClient/main/Thumbnail.png)
