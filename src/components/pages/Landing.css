@@ -86,6 +86,7 @@
     font-weight: bold;
     text-align: center;
     align-items: center;
+    cursor: pointer;
 }
 .tapToEnter:active{
     border: 3px inset gold;
