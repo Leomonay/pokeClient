@@ -65,7 +65,8 @@
         width: 95%;
         left: 0;
         right: 0;
-        margin: auto
+        margin: auto;
+        margin-top: 1.5rem;
     }
     .typeSelect{
         font-size: .6rem;

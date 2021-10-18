@@ -9,7 +9,7 @@ export default function TypeSelect(props){
     const [typesDisplay, setTypesDisplay]=useState('none')
     const [types, setTypes] = useState([]);
     const [limit, setLimit] = useState(parseInt(props.limit))
-    const closeItems = document.getElementsByClassName('pokedexBackground')[0]
+    const closeItems = document.getElementsByClassName('typeSelectBackground')[0]
 
     useEffect(()=>{
         props.parentFunction(selectedTypes)
