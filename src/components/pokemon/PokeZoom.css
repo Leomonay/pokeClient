@@ -1,0 +1,22 @@
+.zoomBackground{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.zoomVisor{
+    display: flex;
+    width: 30vw;
+    height: 30vw;
+    border: 1rem solid navy;
+    background: radial-gradient(cyan, blue);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}
+.pokemonZoom{
+    position:absolute;
+    max-width: 30vw;
+    max-height: 30vw;
+}

@@ -1,0 +1,16 @@
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import './PokeZoom.css'
+
+export default function PokeZoom(props) {
+    const {pokemonShown} = useSelector(state=>state.data)
+
+    return (
+        <div className='zoomBackground'>
+            <div className='title'>Point a pokemon with mouse to view in large size</div>
+            <div className='zoomVisor'>
+                <img className='pokemonZoom' src={pokemonShown} alt=''/>
+            </div>
+        </div>
+    )
+} 

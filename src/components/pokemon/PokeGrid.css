@@ -1,0 +1,162 @@
+.gridBackground{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+.gridFilters{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: calc(100% - 1rem);
+}
+.gridFilterSection{
+    display:flex;
+    max-height: 2rem;
+    /* overflow-y: auto; */
+}
+.filterOption{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: .1rem 0;
+    cursor: pointer;
+    background: rgba(255, 255,255, 0.5);
+    border: 1px solid white;
+    border-radius: .2rem;
+    padding: 0 .2rem;
+    color: white
+}
+.baseList{
+    position: absolute;
+    flex-direction: column;
+    background: rgba(255, 255, 255, .8);
+    margin-left: 7rem;
+    margin-top: 2rem;
+    color: black;
+    padding: .2rem;
+    border: 1px solid white;
+    border-radius: .5rem;
+    z-index: 2;
+}
+.baseOption{
+    cursor: pointer;
+    padding: .2rem;
+}
+.baseOption:hover{
+    border-radius: .3rem;
+    background: silver;
+}
+.pageSizeSettings{
+    display: flex;
+    flex-direction: row;
+}
+.sizeButton{
+    display: flex;
+    justify-content: center;
+    width: 1.5rem;
+    margin: .1rem .3rem;
+    cursor: pointer;
+    background: rgba(255, 255,255, 0.5);
+    border: 1px solid white;
+    border-radius: .2rem;
+    padding: 0 .2rem;
+    color: white
+}
+.itemsByPage{
+    width: 2rem;
+    text-align: center;
+}
+.subtitle{
+    display: flex;
+    margin: 0 .2rem;
+    font-weight: bold
+}
+.gridDiv{
+    border-radius: 1rem;
+    /* height: calc(100% - 5.5rem); */
+    box-shadow: 0 0 20px silver;
+    width: 100%;
+    height: calc(100% - 7rem);
+}
+.pokemonGrid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    height: 100%;
+    width: 100%;
+    margin-right: 1rem;
+}
+.pokemonGrid::-webkit-scrollbar, .gridPages::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+.pokemonGrid::-webkit-scrollbar:vertical{
+    width: .5rem;
+}
+.gridPages::-webkit-scrollbar:horizontal{
+    height: .5rem;
+}
+.pokemonGrid::-webkit-scrollbar-thumb, .gridPages::-webkit-scrollbar-thumb  {
+    background: rgba(150,150,150,.5) ;
+    border-radius: 20px;
+}
+.pokemonGrid::-webkit-scrollbar-track, .gridPages::-webkit-scrollbar-track {
+    border-radius: .5rem;  
+}
+.gridPages{
+    display: flex;
+    align-items: center;
+    width: calc( 100% - 1rem);
+    height: 2rem;
+    overflow-x: auto ;
+    overflow-y: hidden;
+}
+.pageButton{
+    display: flex;
+    background-color: whitesmoke;
+    border-radius: 1rem;
+    justify-content: center;
+    min-width: 1rem;
+    margin: 0 .2rem;
+    padding: 0 .2rem;
+    box-shadow: 2px 2px 2px grey;
+    color: black;
+    text-align: center;
+    cursor: pointer
+}
+.pageButton:active{
+    transform: scale(.95);
+    box-shadow: 1px 1px 1px grey;
+}
+@media(max-width: 768px){
+    .gridFilters{
+        justify-content: center;
+    }
+    .pageButton{
+        margin-top: 2px;
+    }
+    .gridDiv{
+    }
+    .pokemonGrid{
+        border-width: 2px;
+        width: 100%;
+    }
+    .gridFilters{
+        flex-direction: column;
+        align-items: center;
+    }
+    .sizeButton{
+        width: 1rem;
+    }
+    .itemsByPage{
+        width: 1rem;
+    }
+    .pokedexBackground{
+        font-size: .9rem;
+    }
+}

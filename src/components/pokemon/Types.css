@@ -1,0 +1,75 @@
+.type{
+    display: flex;
+    width: 6rem;
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+    margin: .1rem;
+    border-radius: .5rem;
+    color: whitesmoke;
+    font-size: .9rem;
+    font-weight: bold;
+}
+
+.normal{
+    background: linear-gradient(gainsboro,  grey, gainsboro);
+}
+.fighting{
+    background: linear-gradient(darkred,  saddlebrown, darkred);
+}
+.flying{
+    background: linear-gradient(skyblue,  cornflowerblue, skyblue);
+}
+.poison{
+    background: linear-gradient(purple, indigo, purple);
+}
+.ground{
+    background: linear-gradient(sandybrown,  peru, sandybrown);
+}
+.rock{
+    background: linear-gradient(darkseagreen,  tan, darkseagreen);
+}
+.bug{
+    background: linear-gradient( darkseagreen, olive, darkseagreen);
+}
+.ghost{
+    background: linear-gradient(slateblue,  rebeccapurple, slateblue);
+}
+.steel{
+    background: linear-gradient(darkgrey,  grey, darkgrey);
+}
+.fire{
+    background: linear-gradient(orange,  orangered, orange);
+}
+.water{
+    background: linear-gradient(dodgerblue,  blue, dodgerblue);
+}
+.grass{
+    background: linear-gradient(limegreen,  forestgreen, limegreen);
+}
+.electric{
+    background: linear-gradient(yellow,  orange, yellow);
+}
+.psychic{
+    background: linear-gradient(pink,  palevioletred, pink);
+}
+.ice{
+    background: linear-gradient(lightblue,  lightskyblue, lightblue);
+}
+.dragon{
+    background: linear-gradient(mediumslateblue,  blueviolet, mediumslateblue);
+}
+.dark{
+    background: linear-gradient(dimgray,  darkslategray, dimgray);
+}
+.fairy{
+    background: linear-gradient(pink,  hotpink, pink);
+}
+@media(max-width: 768px){
+    .type{
+        width: 3rem;
+        font-weight: bold;
+        font-size: .6rem;
+        height: 1rem;
+    }
+}

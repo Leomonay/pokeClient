@@ -1,0 +1,191 @@
+.newPokemonBackground{
+    display: flex;
+    background-image: url('https://cdn2.bulbagarden.net/upload/thumb/0/0c/Decrepit_Lab_RTDX.png/1200px-Decrepit_Lab_RTDX.png');
+    background-size:cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    margin-top: -1.1rem;
+    padding-top: .5rem;
+    align-items: center;
+    justify-content: center;
+}
+.newPokemonScreen{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    width: 90%;
+    background: rgba(1, 1, 1, 0.5);
+    color: whitesmoke;
+    border-radius: 1rem;
+    padding: .5rem;
+    overflow-y: auto;
+}
+.createHeader{
+    display: flex;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    margin: .2rem ;
+}
+.createTitle{
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-right: .5rem;
+}
+.inputDiv,.statInputDiv{
+    display: flex;
+    padding: .1rem;
+    text-align: center;
+    align-self: center;
+    align-items: center;
+}
+.inputDiv{
+    width: 100%;
+}
+.inputLabel,.nameInputLabel{
+    margin-left: 1rem;
+    padding: 0 .2rem;
+    border-radius: .2rem;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    padding: .2rem .5rem;
+}
+.inputLabel{
+    width: 7rem;
+}
+.textInput, .nameTextInput{
+    margin-right: 1rem;
+    width: 70%;
+    min-width: 15rem;
+    height: 1.3rem;
+}
+.createDescription{
+    display: flex;
+    margin-top: .5rem;
+    height: calc(100% - 5rem);
+}
+.createSection{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+}
+.createGallery{
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+    height: 50%;
+    background: rgba(150,150,255,0.5);
+    border-radius: 50%;
+    width: 90%;
+    justify-content: space-evenly;
+}
+.createMain{
+    height: 100%;
+}
+.createBack, .createIcon{
+    height: 5rem;
+}
+
+.fromFront{
+    transform: scaleX(-1);
+    -webkit-filter: grayscale(100%) brightness(0); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%) brightness(0);
+}
+.statsSection{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 80%;
+}
+.statInputDiv{
+    width: fit-content;
+}
+.numInput{
+    margin-right: 1rem;
+    width: 5rem;
+}
+.errorMessages{
+    display: flex;
+    flex-direction: column;
+    color: red;
+    width: 95%;
+    height: 100%;
+    margin: .5rem 0;
+    overflow-y: auto;
+    border: 3px outset white;
+    background: rgba(255, 255, 255, .8);
+    font-size: .85rem;
+    text-indent: 1rem;
+    justify-content: center;
+}
+.createButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    background: rgba(255, 255, 0, .5);
+    width: 50%;
+    margin: 1rem;
+    height: 50%;
+    padding: .5rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    align-self: center;
+    box-shadow: 0 0 1rem yellowgreen;
+}
+.createButton:active{
+    transform: scale(.95);
+}
+@media(max-width: 768px){
+    .createHeader{
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .createDescription{
+        flex-direction: column;
+        width: 100%;
+    }
+    .createSection{
+        width: 100%;
+        align-items: center;
+        height: fit-content;
+        margin-top: .5rem;
+    }
+    .createSection>b{
+        font-size: 1rem;
+    }
+    .createGallery{
+        width: 95%;
+        height: calc(30vh + 10vw);
+    }
+    .inputDiv{
+        margin: 0;
+        width: 100%;
+    }
+    .inputLabel{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0 .2rem;
+        min-width: 3rem;
+        min-height: 1.5rem;
+    }
+    .textInput{
+        width: 100%;
+        margin: 0;
+        min-width: 8rem;
+        height: 1rem;
+    }
+    .errorMessages{
+        display: flex;
+        font-size: .6rem;
+        align-items: flex-start;
+        height: 13rem;
+    }
+}

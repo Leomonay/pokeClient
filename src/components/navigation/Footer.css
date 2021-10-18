@@ -1,0 +1,19 @@
+.footerBackground{
+    display:flex;
+    width: 100%;
+    margin-left: -1px;
+    max-width: 100vw;
+    background: linear-gradient(red, darkred);
+    border-top: 3px solid black;
+    bottom: 0;
+    height: 2.5rem;
+    justify-content: center;
+    color: whitesmoke;
+}
+.footerLink{
+    color: whitesmoke;
+    margin-left: .3rem
+}
+.footerLink:active{
+    background: red;
+}

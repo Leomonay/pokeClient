@@ -1,0 +1,71 @@
+.pokedexBackground{
+    background-image: url('https://media.sketchfab.com/models/20fea2bdd6b9457e9962e54e5ecfd301/thumbnails/5ec72f9a51a54455a81355041b15e148/df032edc58cf4297994a84e21da10605.jpeg');
+    background-size:cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-top: -1.1rem;
+    padding-top: .5rem;
+}
+.lightBackground{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(1, 1, 1, 0.5) ;
+    color: whitesmoke;
+    height: 95%;
+    width: 95%;
+    border-radius: 2rem;
+    margin-top: 1rem;
+}
+.title{
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    margin-bottom: .5rem;
+}
+.pokedexBD{
+    display: flex;
+    width: 95%;
+    height: calc(100% - 2rem); 
+}
+.pokedexGrid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.pokedexIndex{
+    display: flex;
+    width: 60%;
+    flex-direction: column;
+    height: 100%;
+}
+.gridContainer{
+    height: 100%;
+}
+.pokemonVisor{
+    display: flex;
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+}
+
+@media(max-width: 768px){
+    .pokemonVisor{display:none}
+    .pokedexIndex, .pokedexBD{width: 100%;}
+    .title{
+        font-size: 1.1rem;
+        margin: 0
+    }
+    .pokedexBackground{
+        font-size: .8rem;
+    }
+    .lightBackground{
+        margin-top: 1rem;
+        border-radius: .5rem;
+    }
+}

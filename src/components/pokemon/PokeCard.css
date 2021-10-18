@@ -1,0 +1,74 @@
+.cardLoading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7rem;
+    height: 10rem;
+    background: linear-gradient(45deg, silver,grey,silver);
+    margin: .2rem;
+    border-radius: 1rem;
+}
+.cardLoadingImg{
+    height: 50%;
+}
+.toDetail{
+    text-decoration: none;
+}
+.cardBackground{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1rem;
+    padding: .1rem;
+    height: 10rem;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 3px 3px 3px grey;
+    margin: .3rem;
+    color: black;
+    text-decoration: none;
+}
+.cardBackground:hover{
+     box-shadow: 0 0 10px grey;
+     transform: translateY(-.5rem);
+}
+.cardBackground:active{
+    transform: scale(.95);
+    box-shadow: 1px 1px 1px grey;
+}
+.cardTypes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 5rem;
+}
+.cardImg{
+    height: 5rem;
+    margin-top: -2.5rem;
+    align-self: center;
+    max-height: 5rem;
+    max-width: 6rem;
+}
+.basis{
+    display: flex;
+    justify-content: center;
+    height: 1.5rem;
+    width: 6rem;
+    background-color: lightgreen;
+    margin: 3rem 0 0 0;
+    border-radius: 50%;
+    border: 5px outset green;
+    /* transform: rotateX(75deg) */
+}
+@media(max-width: 768px){
+    .toDetail{
+        transform: scale(.75);
+    }
+    .cardTypes{
+        transform: scale(1.25);
+    }
+    .cardBackground{
+        margin: -.5rem;
+    }
+}
