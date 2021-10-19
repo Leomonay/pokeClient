@@ -45,7 +45,6 @@ export default function Detail() {
             pokemon.bigImage=response.bigImage
             pokemon.types=response.types
             pokemon.stats=response.stats
-            console.log('pokemon.stats', pokemon.stats)
             setDetail(pokemon)
         })
     }

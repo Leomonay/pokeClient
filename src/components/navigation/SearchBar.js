@@ -20,7 +20,7 @@ export default function SearchBar() {
                 setDisplayError('flex')
             }
         })
-        .catch(error=>console.log(error.message))
+        .catch(error=>console.error(error.message))
     }
 
     function handleTryAgain(){

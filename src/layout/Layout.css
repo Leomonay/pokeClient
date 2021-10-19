@@ -1,6 +1,7 @@
 .main-content{
     margin-top: -1.2rem;
     height: calc(100vh - 7.8rem + 3px);
+    width: 100Vw;
 }
 @media(max-width: 768px){
     .main-content{

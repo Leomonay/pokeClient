@@ -6,8 +6,9 @@ import Result from '../pokemon/Result';
 const host = appConfig.host
 
 export default function CreatePokemon() {
-    const [newId, setNewId]=useState(1)
+    const [newId, setNewId]=useState(null)
     const [statErrors, setStatErrors]=useState([])
+    const [displayResult, setDisplayResult]=useState('none')
     const statsLimits={
             'Hp':{min: '5', max: '255'},
             'Height':{min: '20', max: '2000'},
@@ -96,8 +97,8 @@ export default function CreatePokemon() {
             if(resp.error){
                 setStatErrors([resp])
             }else{
-                console.log(resp)
                 setNewId(resp.id)
+                setDisplayResult('flex')
             }
         })
     }
@@ -170,9 +171,9 @@ export default function CreatePokemon() {
                                 onClick={sendPokemon}
                                 >Create!
                             </div>
-                            <div className='creationResult'>
-                                <Result id={newId} display={'none'}/>
-                            </div>
+                            {newId&&<div className='creationResult'>
+                                <Result id={newId} display={displayResult} parentFunction={setNewId}/>
+                            </div>}
                         </div>
                     </div>
                 </div>

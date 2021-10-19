@@ -47,7 +47,6 @@ export default function PokemonGrid (){
 
     function changePageSize(e){
         let newSize=0
-        console.log(e.target.className==='sizeButton')
         if(e.target.className==='sizeButton'){
             let step = 6*parseInt(e.target.id)
             newSize = Math.max(6, pokedexPageSize+step)
@@ -55,7 +54,6 @@ export default function PokemonGrid (){
         }else{
             newSize=e.target.value? Math.max(1,parseInt(e.target.value)):1
         }
-        console.log('newSize',newSize)
         dispatch(setPokedexPageSize(newSize))
     }
 

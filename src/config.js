@@ -1,5 +1,5 @@
 const appConfig={
     host: 'https://leomonay-pokedexserver.herokuapp.com',
-    // bigImage: 'https://marriland.com/wp-content/plugins/marriland-core/images/pokemon/sprites/home/full/'
+    // host: 'http://localhost:3001',
 }
 export default appConfig
