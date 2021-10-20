@@ -14,14 +14,18 @@
 }
 .gridFilterSection{
     display:flex;
+    width: 100%;
     max-height: 2rem;
-    /* overflow-y: auto; */
 }
+.typesSelection{
+    width: 80%;
+}
+
 .filterOption{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: fit-content;
+    width: 12rem;
     margin: .1rem 0;
     cursor: pointer;
     background: rgba(255, 255,255, 0.5);
@@ -73,7 +77,8 @@
 .subtitle{
     display: flex;
     margin: 0 .2rem;
-    font-weight: bold
+    font-weight: bold;
+    align-items: center;
 }
 .gridDiv{
     border-radius: 1rem;
@@ -90,22 +95,21 @@
     overflow-y: auto;
     height: 100%;
     width: 100%;
-    margin-right: 1rem;
 }
-.pokemonGrid::-webkit-scrollbar, .gridPages::-webkit-scrollbar {
+*::-webkit-scrollbar{
     -webkit-appearance: none;
 }
-.pokemonGrid::-webkit-scrollbar:vertical{
+*::-webkit-scrollbar:vertical{
     width: .5rem;
 }
-.gridPages::-webkit-scrollbar:horizontal{
+*::-webkit-scrollbar:horizontal{
     height: .5rem;
 }
-.pokemonGrid::-webkit-scrollbar-thumb, .gridPages::-webkit-scrollbar-thumb  {
+*::-webkit-scrollbar-thumb{
     background: rgba(150,150,150,.5) ;
     border-radius: 20px;
 }
-.pokemonGrid::-webkit-scrollbar-track, .gridPages::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track{
     border-radius: .5rem;  
 }
 .gridPages{

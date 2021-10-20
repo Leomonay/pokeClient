@@ -64,7 +64,7 @@ export default function TypeSelect(props){
         <div className='typeSelectBackground'>
                 <div className='typeSelect' onClick={(e)=>handleMenuClick(e)}>Types &#9660;</div>
                 <div className='selectedTypesList'>
-                    {selectedTypes.map(e=><Type key={e} name={e}/>)}
+                    {selectedTypes.map(e=><Type key={e} name={e} typeStyles={props.typeStyles}/>)}
                 </div>
                 <div className='typeMenu' style={{display:typesDisplay}}>
                     <div className='typeList'>

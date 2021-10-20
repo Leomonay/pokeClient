@@ -18,6 +18,10 @@ export default function PokemonGrid (){
         'National Pokedex':'api',
         'Created in Lab':'created'
     }
+    const typeStyles = {
+        width: '4rem',
+        fontSize: '.8rem'
+    }
 
     async function getTotalPokes(){
         fetch(`${host}/totalpokemon`)
@@ -99,14 +103,11 @@ export default function PokemonGrid (){
                             <div className='baseOption' onClick={()=>handleOptionClick('National Pokedex')}>National Pokedex</div>
                             <div className='baseOption' onClick={()=>handleOptionClick('Created in Lab')}>Created in Lab</div>
                         </div>
-                </div>
-                <div className='gridFilterSection'>
                     <div className='typesSelection'>
-                        <TypeSelect parentFunction={setFilterTypes} />
+                        <TypeSelect parentFunction={setFilterTypes} typeStyles={typeStyles}/>
                     </div>
                 </div>
                 <div className='gridFilterSection'>
-                    {/* <div className='pageSizeSettings'> */}
                         <div className="subtitle">
                             Pokemon by page: 
                         <button className='sizeButton' id='-1' onClick={e=>changePageSize(e)}>&#9660;</button>
@@ -118,9 +119,6 @@ export default function PokemonGrid (){
                         <button className='sizeButton' id='+1' onClick={e=>changePageSize(e)}>&#9650;</button>
                         page {pokedexPage} of {totalPages.length}
                         </div>
-                    {/* </div> */}
-                </div>
-                <div className='gridFilterSection'>
                 </div>
             </div>
 

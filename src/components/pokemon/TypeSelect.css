@@ -1,8 +1,10 @@
 .typeSelectBackground{
     display:flex;
     width: 100%;
+    max-height: 100%;
 }
 .typeSelect{
+    width: 5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,9 +14,10 @@
     border: 1px solid white;
     border-radius: .2rem;
     padding: 0 .2rem;
-    height: fit-content;
+    max-height: 100%;
 }
 .selectedTypesList{
+    max-width: 80%;
     display: flex;
     flex-wrap: wrap;
     max-height: 2rem;
