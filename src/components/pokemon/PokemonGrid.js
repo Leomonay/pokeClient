@@ -78,6 +78,7 @@ export default function PokemonGrid (){
         let pagesArray=[]
         for (let i=1; i<=pages;i++){pagesArray.push(i)}
         setTotalPages(pagesArray)
+        if(pokedexPage>pagesArray.length)dispatch(setPokedexPage(pagesArray.length))
     }
     
     function handleOptionClick(option){
