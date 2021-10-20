@@ -1,4 +1,7 @@
 .footerBackground{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     display:flex;
     margin-left: -1px;
     background: linear-gradient(red, darkred);

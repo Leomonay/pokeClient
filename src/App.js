@@ -14,7 +14,6 @@ import './App.css';
 
 function App() {
   return (
-    <div>
       <Router>
       <Switch>
             <Route exact path={'/'} component={Landing} hideMenuBar={true}></Route>
@@ -25,7 +24,6 @@ function App() {
         </Layout>
         </Switch>
       </Router>
-    </div>
   );
 }
 

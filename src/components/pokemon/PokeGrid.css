@@ -82,7 +82,6 @@
 }
 .gridDiv{
     border-radius: 1rem;
-    /* height: calc(100% - 5.5rem); */
     box-shadow: 0 0 20px silver;
     width: 100%;
     height: calc(100% - 7.5rem);
@@ -128,14 +127,13 @@
     border-radius: 1rem;
     justify-content: center;
     align-items: center;
-    min-width: 1rem;
     margin: 0 .2rem;
     padding: .1rem;
     box-shadow: 2px 2px 2px grey;
     color: black;
     text-align: center;
     cursor: pointer;
-    font-size: .8rem
+    min-width: 1.5rem;
 }
 .currentPage{
     background: red;
@@ -166,6 +164,8 @@
     }
     .pageButton{
         margin-top: 2px;
+        font-size: .8rem;
+        min-width: 1rem;
     }
     .gridDiv{
     }
