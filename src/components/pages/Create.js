@@ -3,9 +3,12 @@ import TypeSelect from '../pokemon/TypeSelect';
 import appConfig from "../../config"
 import './Create.css'
 import Result from '../pokemon/Result';
+import {setNewPokemon, setNewPokemonType} from '../../actions/dataActions'
+import { useDispatch, useSelector } from 'react-redux';
 const host = appConfig.host
 
 export default function CreatePokemon() {
+    const {newPokemon}=useSelector(state=>state.data)
     const [newId, setNewId]=useState(null)
     const [statErrors, setStatErrors]=useState([])
     const [displayResult, setDisplayResult]=useState('none')
@@ -21,46 +24,33 @@ export default function CreatePokemon() {
             'Speed':{min: '5', max: '255'},
         }
     },[])
-    const [newPokemon, setNewPokemon] = useState({
-        name:'',
-        types:[],
-        images:{
-            icon:'',
-            front:'',
-            backIcon:''
-        },
-        stats:{
-            'Hp':0,
-            'Height':0,
-            'Weight':0,
-            'Attack':0,
-            'Special Attack':0,
-            'Defense':0,
-            'Special Defense':0,
-            'Speed':0,
-        }
-    })
+    const dispatch = useDispatch()
 
     function handleNameChange(e){
-        setNewPokemon({...newPokemon,name: e.target.value})
+        dispatch(setNewPokemon({...newPokemon,name: e.target.value}))
     }
     function getSelectedTypes(types){
-        setNewPokemon({...newPokemon,types: types})
+        dispatch(setNewPokemonType(types))
     }
+
+    useEffect(()=>console.log(newPokemon),[newPokemon])
+
     function handleStatsChange(e){
         let stat = e.target.id
-        setNewPokemon(
+        dispatch(setNewPokemon(
             {...newPokemon,stats:{
-                ...newPokemon.stats,[stat]: Number(e.target.value)}})
+                ...newPokemon.stats,[stat]: Number(e.target.value)}}))
     }
     function handleImageChange(e){
         let ref = {'Icon':'icon','Main image':'front','Back icon':'backIcon'}
         let item = ref[e.target.id]
-        setNewPokemon({...newPokemon,images:{
-            ...newPokemon.images,[item]:e.target.value
-        }})
+        dispatch(setNewPokemon(
+            {...newPokemon,images:
+                {...newPokemon.images,[item]:e.target.value}
+            }
+        ))
     }
-
+    
     useEffect(()=>{
         function handleErrors(){
             let errors=[]
@@ -68,8 +58,8 @@ export default function CreatePokemon() {
             if (!newPokemon.types || newPokemon.types.length===0)errors.push({error: 'Types: ', detail: `at least one type must be selected.`})
             if (!newPokemon.images || !newPokemon.images.front)errors.push({error: 'Images: ', detail: `at least a front image must be set.`})
             let statsSum = 0
-            for (let stat of Object.keys(newPokemon.stats || statsLimits)){
-                if (!newPokemon.stats || newPokemon.stats[stat]<statsLimits[stat].min || newPokemon.stats[stat]>statsLimits[stat].max){
+            for (let stat of Object.keys(statsLimits)){
+                if (!newPokemon.stats|| !newPokemon.stats[stat] || newPokemon.stats[stat]<statsLimits[stat].min || newPokemon.stats[stat]>statsLimits[stat].max){
                     errors.push({error: [stat]+": ", detail: `value must be between ${statsLimits[stat].min} and ${statsLimits[stat].max}.`})
                 }
                 if (newPokemon.stats && stat!=="Height"&&stat!=="Weight"){
@@ -103,8 +93,6 @@ export default function CreatePokemon() {
             }
         })
     }
-
-    useEffect(()=>{setNewPokemon({})},[])
 
     return (
         <div className='newPokemonBackground'>
@@ -146,7 +134,7 @@ export default function CreatePokemon() {
                     <div className='createSection'>
                         <b>Stats:</b><br/>
                         <div className='statsSection'>
-                            {Object.keys(newPokemon.stats || statsLimits).map(stat=>
+                            {Object.keys(statsLimits).map(stat=>
                                 <div className='statInputDiv' key={stat}>
                                     <div className='inputLabel'>{stat}</div>
                                     <input 

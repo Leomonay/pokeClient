@@ -35,3 +35,15 @@ export function setTotal(total){
         payload: total
     }
 }
+export function setNewPokemon(total){
+    return{
+        type: 'SET_NEWPOKE',
+        payload: total
+    }
+}
+export function setNewPokemonType(types){
+    return{
+        type: 'SET_NEWPOKEMON_TYPE',
+        payload: types
+    }
+}

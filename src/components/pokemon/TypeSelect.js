@@ -6,13 +6,12 @@ const host = appConfig.host
 
 export default function TypeSelect(props){
     const [selectedTypes, setSelectedTypes] = useState([])
-    // const [parentFunction, setParentFunction] = useState(props.parentFunction)
+    const [parentFunction] = useState(()=>props.parentFunction)
     const [typesDisplay, setTypesDisplay]=useState('none')
     const [types, setTypes] = useState([]);
     const [limit, setLimit] = useState(parseInt(props.limit)||types.length)
     const closeItems = document.getElementsByClassName('main-content')[0]
 
-    const {parentFunction}=props
     useEffect(()=>{
         parentFunction(selectedTypes)
     },[selectedTypes, parentFunction])

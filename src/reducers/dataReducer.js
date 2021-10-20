@@ -4,7 +4,8 @@ const initialState = {
     pokedexPageSize: 12,
     pokemonResult: '',
     base:'National Pokedex',
-    totalPokes:{'api':1500, 'created':500}
+    totalPokes:{'api':1500, 'created':500},
+    newPokemon:{}
 };
 
 export default function dataReducer (state = initialState,action){
@@ -38,6 +39,16 @@ export default function dataReducer (state = initialState,action){
             return{
                 ...state,
                 totalPokes: action.payload
+            };
+        case 'SET_NEWPOKE':
+            return{
+                ...state,
+                newPokemon: action.payload
+            };
+        case 'SET_NEWPOKEMON_TYPE':
+            return{
+                ...state,
+                newPokemon: {...state.newPokemon, types:action.payload}
             };
         default: return state;
     }
