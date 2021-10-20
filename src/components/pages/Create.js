@@ -74,7 +74,7 @@ export default function CreatePokemon() {
             }
         }
         if (statsSum>600){
-            errors.push({error: 'Total Stats: ', detail: `the sum of Hp, Attack, Special Attack, Defense, Special Defense and Speed must be equal to or less than 25.`})
+            errors.push({error: 'Total Stats: ', detail: `the sum of Hp, Attack, Special Attack, Defense, Special Defense and Speed must be equal to or less than 600.`})
         }
         setStatErrors(errors)
     }
