@@ -67,6 +67,7 @@
     color: whitesmoke;
     box-shadow: 3px 3px 3px black;
     margin-bottom: .5rem;
+    cursor: pointer;
 }
 .tryAgainButton:active{
     transform: scale(.95);
