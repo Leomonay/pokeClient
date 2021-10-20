@@ -6,14 +6,16 @@ const host = appConfig.host
 
 export default function TypeSelect(props){
     const [selectedTypes, setSelectedTypes] = useState([])
+    // const [parentFunction, setParentFunction] = useState(props.parentFunction)
     const [typesDisplay, setTypesDisplay]=useState('none')
     const [types, setTypes] = useState([]);
-    const [limit, setLimit] = useState(parseInt(props.limit))
+    const [limit, setLimit] = useState(parseInt(props.limit)||types.length)
     const closeItems = document.getElementsByClassName('main-content')[0]
 
+    const {parentFunction}=props
     useEffect(()=>{
-        props.parentFunction(selectedTypes)
-    },[selectedTypes])
+        parentFunction(selectedTypes)
+    },[selectedTypes, parentFunction])
 
     function getTypes(){
         try{
@@ -26,9 +28,10 @@ export default function TypeSelect(props){
     }
 
     useEffect(() =>getTypes(), [])
+
     useEffect(()=>{
-        if(!props.limit)setLimit(types.length)
-    },[types])
+        if(!limit)setLimit(types.length)
+    },[types,limit])
 
     function closeMenuClickingOutside(e){
         if(e.target.className.slice(0,4)==='type')return

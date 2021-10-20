@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import TypeSelect from '../pokemon/TypeSelect';
 import appConfig from "../../config"
 import './Create.css'
@@ -9,7 +9,8 @@ export default function CreatePokemon() {
     const [newId, setNewId]=useState(null)
     const [statErrors, setStatErrors]=useState([])
     const [displayResult, setDisplayResult]=useState('none')
-    const statsLimits={
+    const statsLimits= useMemo(()=>{
+        return {
             'Hp':{min: '5', max: '255'},
             'Height':{min: '20', max: '2000'},
             'Weight':{min: '0.1', max: '1000'},
@@ -18,7 +19,8 @@ export default function CreatePokemon() {
             'Defense':{min: '5', max: '255'},
             'Special Defense':{min: '5', max: '255'},
             'Speed':{min: '5', max: '255'},
-    }
+        }
+    },[])
     const [newPokemon, setNewPokemon] = useState({
         name:'',
         types:[],
@@ -59,29 +61,28 @@ export default function CreatePokemon() {
         }})
     }
 
-    function handleErrors(){
-        let errors=[]
-        if (!newPokemon.name)errors.push({error: 'Name: ', detail: `a pokemon needs a name!`})
-        if (newPokemon.types.length===0)errors.push({error: 'Types: ', detail: `at least one type must be selected.`})
-        if (!newPokemon.images.front)errors.push({error: 'Images: ', detail: `at least a front image must be set.`})
-        let statsSum = 0
-        for (let stat of Object.keys(newPokemon.stats)){
-            if (newPokemon.stats[stat]<statsLimits[stat].min || newPokemon.stats[stat]>statsLimits[stat].max){
-                errors.push({error: [stat]+": ", detail: `value must be between ${statsLimits[stat].min} and ${statsLimits[stat].max}.`})
-            }
-            if (stat!=="Height"&&stat!=="Weight"){
-                statsSum += newPokemon.stats[stat]
-            }
-        }
-        if (statsSum>600){
-            errors.push({error: 'Total Stats: ', detail: `the sum of Hp, Attack, Special Attack, Defense, Special Defense and Speed must be equal to or less than 600.`})
-        }
-        setStatErrors(errors)
-    }
-
     useEffect(()=>{
-        handleErrors()        
-    },[newPokemon])
+        function handleErrors(){
+            let errors=[]
+            if (!newPokemon.name)errors.push({error: 'Name: ', detail: `a pokemon needs a name!`})
+            if (!newPokemon.types || newPokemon.types.length===0)errors.push({error: 'Types: ', detail: `at least one type must be selected.`})
+            if (!newPokemon.images || !newPokemon.images.front)errors.push({error: 'Images: ', detail: `at least a front image must be set.`})
+            let statsSum = 0
+            for (let stat of Object.keys(newPokemon.stats || statsLimits)){
+                if (!newPokemon.stats || newPokemon.stats[stat]<statsLimits[stat].min || newPokemon.stats[stat]>statsLimits[stat].max){
+                    errors.push({error: [stat]+": ", detail: `value must be between ${statsLimits[stat].min} and ${statsLimits[stat].max}.`})
+                }
+                if (newPokemon.stats && stat!=="Height"&&stat!=="Weight"){
+                    statsSum += newPokemon.stats[stat]
+                }
+            }
+            if (statsSum>600){
+                errors.push({error: 'Total Stats: ', detail: `the sum of Hp, Attack, Special Attack, Defense, Special Defense and Speed must be equal to or less than 600.`})
+            }
+            setStatErrors(errors)
+        };
+        handleErrors()
+    },[newPokemon, statsLimits])
  
     function sendPokemon(){
         fetch(`${host}/pokemon`,{
@@ -103,7 +104,7 @@ export default function CreatePokemon() {
         })
     }
 
-    useEffect(()=>{handleErrors()},[])
+    useEffect(()=>{setNewPokemon({})},[])
 
     return (
         <div className='newPokemonBackground'>
@@ -130,20 +131,22 @@ export default function CreatePokemon() {
                             </div>
                         )}
                         <div className='createGallery'>
-                            <img className='createIcon' src={newPokemon.images.icon || 'https://i.imgur.com/ROlBaFl.png'} alt='icon'/>
-                            <img className='createMain' src={newPokemon.images.front || 'https://i.imgur.com/ROlBaFl.png'} alt='main'/>
+                            <img className='createIcon' src={(!newPokemon.images || !newPokemon.images.icon)? 'https://i.imgur.com/ROlBaFl.png' : newPokemon.images.icon} alt='icon'/>
+                            <img className='createMain' src={(!newPokemon.images || !newPokemon.images.front)? 'https://i.imgur.com/ROlBaFl.png' : newPokemon.images.front} alt='main'/>
                             <img 
-                                className={'createBack'+((!newPokemon.images.backIcon) && newPokemon.images.front ?' fromFront':'')} 
-                                src={newPokemon.images.backIcon ? newPokemon.images.backIcon
-                                    : newPokemon.images.front ? newPokemon.images.front
-                                        : 'https://i.imgur.com/ROlBaFl.png'} alt='back'/>
+                                className={'createBack'+(newPokemon.images?
+                                    ((!newPokemon.images.backIcon) && newPokemon.images.front ?' fromFront':''):'')} 
+                                
+                                src={(!newPokemon.images || !(newPokemon.images.backIcon || newPokemon.images.front)? 'https://i.imgur.com/ROlBaFl.png':
+                                        (newPokemon.images.backIcon ? newPokemon.images.backIcon
+                                            :newPokemon.images.front))} alt='back'/>
                         </div>
                     </div>
 
                     <div className='createSection'>
                         <b>Stats:</b><br/>
                         <div className='statsSection'>
-                            {Object.keys(newPokemon.stats).map(stat=>
+                            {Object.keys(newPokemon.stats || statsLimits).map(stat=>
                                 <div className='statInputDiv' key={stat}>
                                     <div className='inputLabel'>{stat}</div>
                                     <input 

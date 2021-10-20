@@ -31,29 +31,25 @@ export default function Detail() {
         water: 'https://image.freepik.com/vector-gratis/fondo-mar-videoconferencias_52683-43441.jpg',
     }
 
-    function getDetail(){
-        fetch(`${host}/pokemon/${id}`)
-        .then(response=>response.json())
-        .then(response=>{
-            let pokemon={}
-            pokemon.id=response.id
-            pokemon.name=response.name.toUpperCase()
-            pokemon.front=response.imageIcon?response.imageIcon:response.imageFront
-            if( (!response.imageBack) || response.imageBack==='')setBackClass('detailBack fromFront')
-            pokemon.back=response.imageBack?response.imageBack:response.imageFront
-            pokemon.official=response.imageFront
-            pokemon.bigImage=response.bigImage
-            pokemon.types=response.types
-            pokemon.stats=response.stats
-            setDetail(pokemon)
-        })
-    }
-
     useEffect(()=>{
-        function effect(){
-            getDetail()
-        };
-        effect();
+        function getDetail(){
+            fetch(`${host}/pokemon/${id}`)
+            .then(response=>response.json())
+            .then(response=>{
+                let pokemon={}
+                pokemon.id=response.id
+                pokemon.name=response.name.toUpperCase()
+                pokemon.front=response.imageIcon?response.imageIcon:response.imageFront
+                if( (!response.imageBack) || response.imageBack==='')setBackClass('detailBack fromFront')
+                pokemon.back=response.imageBack?response.imageBack:response.imageFront
+                pokemon.official=response.imageFront
+                pokemon.bigImage=response.bigImage
+                pokemon.types=response.types
+                pokemon.stats=response.stats
+                setDetail(pokemon)
+            })
+        }
+        getDetail()
     },[id])
 
     if(!detail.id)return<>loading</>

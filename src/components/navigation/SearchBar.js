@@ -30,7 +30,7 @@ export default function SearchBar() {
     }
     useEffect(()=>document.getElementById('inputName').addEventListener(
         "keydown",(e)=>{
-            if (e.code == "Enter")handleSubmit()
+            if (e.code === "Enter")handleSubmit()
         }
     ),[])
 

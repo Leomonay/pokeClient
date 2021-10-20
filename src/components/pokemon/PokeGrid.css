@@ -115,6 +115,7 @@
 }
 .gridPages{
     display: flex;
+    justify-content: space-evenly;
     align-items: center;
     width: calc( 100% - 1rem);
     height: 2rem;
@@ -123,18 +124,39 @@
 }
 .pageButton{
     display: flex;
-    background-color: whitesmoke;
+    background: whitesmoke;
     border-radius: 1rem;
     justify-content: center;
+    align-items: center;
     min-width: 1rem;
     margin: 0 .2rem;
-    padding: 0 .2rem;
+    padding: .1rem;
     box-shadow: 2px 2px 2px grey;
     color: black;
     text-align: center;
-    cursor: pointer
+    cursor: pointer;
+    font-size: .8rem
 }
-.pageButton:active{
+.currentPage{
+    background: red;
+    color: whitesmoke;
+    font-weight: bold;
+}
+.edges{
+    background-color: darkred;
+    color: whitesmoke;
+    font-weight: bold;
+}
+.consecutive{
+    color: darkred;
+    background-color: whitesmoke;
+    font-weight: bold;
+}
+.notPage{
+    color: silver;
+    background:none;
+}
+.goToPage:active{
     transform: scale(.95);
     box-shadow: 1px 1px 1px grey;
 }
@@ -163,5 +185,8 @@
     }
     .pokedexBackground{
         font-size: .9rem;
+    }
+    .pageWord{
+        display: none;
     }
 }

@@ -14,7 +14,8 @@
     width: 30%;
     justify-content: space-evenly;
     align-items: center;
-    padding-top: .5rem;
+    padding-top: .3rem;
+    padding-bottom: .2rem
 }
 .blueLight{
     background: radial-gradient(cyan, blue, darkblue);
@@ -47,7 +48,7 @@
 }
 .topBbackground{
     display: flex;
-    height: calc(1rem - 4px);
+    height: calc(1rem - 3px);
     background-color: darkred;
     width: 20%;
     margin-left: -1px;

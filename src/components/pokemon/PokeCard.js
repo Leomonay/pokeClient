@@ -10,39 +10,47 @@ const host = appConfig.host
 
 export default function PokeCard(props) {
     const [pokemon,setPokemon] = useState({id:'',name:'',img:'', gif:'',types:['']})
+    const [pokemonName] = useState(props.pokemonName)
+    const [id] = useState(props.id)
     const {pokemonShown} = useSelector(state=>state.data)
     const dispatch = useDispatch()
     const arrayTypes = props.types
     
-    async function getPokemon(){
-        let url = `${host}/pokemon/${props.pokemonName?`byname?name=${props.pokemonName}`:props.id}`
-        await fetch(url)
-        .then(res=> res.json())
-        .catch(e=>{
-            console.error(e.message)
-            return 'error'
-        })
-        .then(res=>{
-            let pokemon={}
-                pokemon.id=res.id
-                pokemon.name=res.name.toUpperCase()
-                pokemon.img=res.imageIcon?res.imageIcon:res.imageFront
-                pokemon.gif=res.bigImage
-                pokemon.types=res.types
-            setPokemon(pokemon)
-        })
-        .catch(e=>{
-            console.error(e.message)
-            return 'error'
-        })
-    }
+    
 
     function handleMouseOver(){
         if (pokemon.gif!==pokemonShown){
             dispatch(setPokemonZoom(pokemon.gif))
         }
     }
-    useEffect(()=>{getPokemon()},[])
+
+    useEffect(()=>{
+        async function getPokemon(){
+            let url = `${host}/pokemon/${pokemonName?`byname?name=${pokemonName}`:id}`
+            await fetch(url)
+            .then(res=> res.json())
+            .catch(e=>{
+                console.error(e.message)
+                return 'error'
+            })
+            .then(res=>{
+                let pokemon={}
+                    pokemon.id=res.id
+                    pokemon.name=res.name.toUpperCase()
+                    pokemon.img=res.imageIcon?res.imageIcon:res.imageFront
+                    pokemon.gif=res.bigImage
+                    pokemon.types=res.types
+                setPokemon(pokemon)
+            })
+            .catch(e=>{
+                console.error(e.message)
+                return 'error'
+            })
+        }
+        getPokemon()
+    },[pokemonName, id])
+
+    // useEffect(()=>setPokemon('')
 
     function checkType(){
         if ((!arrayTypes) || arrayTypes.length===0) return true

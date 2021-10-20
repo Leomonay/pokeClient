@@ -38,13 +38,6 @@
 }
 
 
-.landingScreen{
-    position: absolute;
-    width: 100px;
-    height: 100%;
-    background-color: azure;
-
-}
 .lower{
     height: calc(100% - 4.5rem - 3px);
     margin-top: calc(-1rem - 3px);

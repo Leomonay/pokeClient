@@ -10,42 +10,81 @@ const {host} = appConfig;
 export default function PokemonGrid (){
     const {pokedexPageSize, pokedexPage, base, totalPokes} = useSelector((state)=>state.data)
     const dispatch = useDispatch()
+    const [pageSize] = useState(12)
     const [idArray, setIdArray] = useState([])
     const [filterTypes, setFilterTypes] = useState([])
     const [showBases, setShowBases] = useState('none')
     const [totalPages, setTotalPages] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13])
-    const bases = {
+    const [bases] = useState({
         'National Pokedex':'api',
         'Created in Lab':'created'
-    }
+    })
     const typeStyles = {
         width: '4rem',
         fontSize: '.8rem'
     }
+    const pages= (()=>{
+        let array = [
+            {caption:'<< First', toPage: 1, format:' edges'},
+            {caption: '< Prev', toPage: pokedexPage-1, format:' consecutive'}]
+        let indexes = [-10,-2,-1,0,1,2,10] 
+        indexes.map(dif=>
+            array.push({
+                caption:pokedexPage+dif<1?'<':pokedexPage+dif>totalPages.length?'>':pokedexPage+dif,
+                toPage:pokedexPage+dif,
+                format: (pokedexPage+dif>totalPages.length||pokedexPage+dif<1)?' notPage':dif===0?' currentPage':' goToPage',
+            })
+        )
+        array=[...array,
+            {caption: 'Next >', toPage: pokedexPage+1, format:' consecutive'},
+            {caption: 'Last >>', toPage: totalPages.length, format:' edges'}]
+        return array
+    })()
 
-    async function getTotalPokes(){
-        fetch(`${host}/totalpokemon`)
-        .then(response=>response.json())
-        .then(response=> dispatch( setTotal(response) ) )
-    }
-    
-    function getIdArray(){
-        const firstPokemon=pokedexPageSize*(pokedexPage-1)+1
-        let pokemonsToShow = []
-        let db = bases[base]
-        let limit=Math.min(firstPokemon+pokedexPageSize-1, totalPokes[db])
-        if(limit>0){
-            for (let i=firstPokemon; i<=limit;i++){
-                pokemonsToShow.push( (db==='created'?'A':'') +i)
-            }
+    useEffect(()=>{
+        document.getElementById('sizeInput').value=pageSize
+    },[pageSize])
+
+    useEffect(()=>{
+        async function getTotalPokes(){
+            fetch(`${host}/totalpokemon`)
+            .then(response=>response.json())
+            .then(response=> dispatch( setTotal(response) ) )
         }
-        setIdArray(pokemonsToShow)
-    }
-    useEffect(() => {getIdArray()}, [pokedexPage, pokedexPageSize, base])
-    useEffect(() => getTotalPages(), [pokedexPageSize, base, totalPokes])
+        getTotalPokes()
+    },[dispatch, pageSize, pokedexPage, base])
+    
+    useEffect(() => {
+        function getIdArray(){
+            const firstPokemon=pokedexPageSize*(pokedexPage-1)+1
+            let pokemonsToShow = []
+            let db = bases[base]
+            let limit=Math.min(firstPokemon+pokedexPageSize-1, totalPokes[db])
+            if(limit>0){
+                for (let i=firstPokemon; i<=limit;i++){
+                    pokemonsToShow.push( (db==='created'?'A':'') +i)
+                }
+            }
+            setIdArray(pokemonsToShow)
+        }
+        getIdArray()
+    }, [pokedexPage, pokedexPageSize, base, bases, totalPokes])
 
-    function setPage(e){
-        dispatch(setPokedexPage(parseInt(e.target.id)))
+    useEffect(() => {
+        function getTotalPages(){
+            let pages = totalPokes[bases[base]]/pokedexPageSize + (
+                totalPokes%pokedexPage===0?0:1
+            )
+            let pagesArray=[]
+            for (let i=1; i<=pages;i++){pagesArray.push(i)}
+            setTotalPages(pagesArray)
+            if(pokedexPage>pagesArray.length)dispatch(setPokedexPage(pagesArray.length))
+        }
+        getTotalPages()
+    }, [pokedexPageSize, base, totalPokes, bases, pokedexPage, dispatch])
+
+    function setPage(page){
+        dispatch(setPokedexPage(parseInt(page)))
         dispatch(setPokemonZoom(''))
     }
 
@@ -70,29 +109,11 @@ export default function PokemonGrid (){
             document.getElementById('root').onClick=''
         }
     }
-
-    function getTotalPages(){
-        let pages = totalPokes[bases[base]]/pokedexPageSize + (
-            totalPokes%pokedexPage===0?0:1
-        )
-        let pagesArray=[]
-        for (let i=1; i<=pages;i++){pagesArray.push(i)}
-        setTotalPages(pagesArray)
-        if(pokedexPage>pagesArray.length)dispatch(setPokedexPage(pagesArray.length))
-    }
     
     function handleOptionClick(option){
         dispatch(setBase(option))
         handleBaseClick()
     }
-    async function mount(){
-        let pageSize = document.getElementById('sizeInput')
-        pageSize.value=pokedexPageSize
-        await getTotalPokes()
-        await getIdArray()
-    }
-
-    useEffect(()=>mount(),[])
 
     return(
         <div className='gridBackground'>
@@ -129,10 +150,17 @@ export default function PokemonGrid (){
                 </div>
             </div>
             <div className='gridPages'>
-                Pages:
-                {totalPages.map(page=>
-                    <div className='pageButton' key={page} id={page} onClick={e=>setPage(e)}>{page}</div>
-                )}
+                {pages.map((page,index)=>{
+                    let goToPage = page.toPage
+                    let caption = page.caption
+                    let format = page.format
+                    return<div className={'pageButton'+format}
+                        key={index}
+                        onClick={()=>(goToPage>=1 && goToPage<=totalPages.length && goToPage!==pokedexPage)&&setPage(goToPage)}
+                        >{typeof caption == 'string' && caption.includes(' ')?
+                            caption.split(' ').map((word,index)=><div key={index} className={word.length>2?'pageWord':''}>{word}</div>)
+                        :caption}</div>
+                })}
             </div>
 
         </div>
