@@ -1,13 +1,10 @@
 .footerBackground{
-    position: absolute;
-    bottom: 0;
     width: 100%;
     display:flex;
-    margin-left: -1px;
     background: linear-gradient(red, darkred);
     border-top: 3px solid black;
     bottom: 0;
-    height: 2.5rem;
+    height: 2.6rem;
     justify-content: center;
     color: whitesmoke;
 }
