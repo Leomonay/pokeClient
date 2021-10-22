@@ -5,13 +5,15 @@ import './Create.css'
 import Result from '../pokemon/Result';
 import {setNewPokemon, setNewPokemonType } from '../../actions/pokemonActions'
 import { useDispatch, useSelector } from 'react-redux';
-const {statsLimits,host} = appConfig.host
+const {statsLimits,host} = appConfig
 
 export default function CreatePokemon() {
     const {newPokemon}=useSelector(state=>state.pokemon)
     const [newId, setNewId]=useState(null)
     const [statErrors, setStatErrors]=useState([])
     const [displayResult, setDisplayResult]=useState('none')
+
+    useEffect(()=>console.log(statsLimits),[])
 
     const dispatch = useDispatch()
 
