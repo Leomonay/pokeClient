@@ -1,38 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import PokeCard from '../pokemon/PokeCard';
-import appConfig from '../../config'
 import './SearchBar.css'
-const {host} = appConfig
+import { searchPokemon } from '../../actions/pokemonActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function SearchBar() {
-    const [pokemonName, setPokemonName] = useState  ('')
+    const {pokemonResult} = useSelector(data=>data.pokemon)
     const [displayError, setDisplayError] = useState('none')
     const [displaySuccess, setDisplaySuccess] = useState('none')
+    const [activeSearch, setActiveSearch] = useState(false)
+    const dispatch = useDispatch()
 
     function handleSubmit(){
         let name = document.getElementById('inputName').value
-        setPokemonName( name )
-        fetch(`${host}/pokemon/byname?name=${name}`)
-        .then(data=>{
-            if (data.status===200){
-                setDisplaySuccess('flex')
-            }else{
-                setDisplayError('flex')
-            }
-        })
-        .catch(error=>console.error(error.message))
+        dispatch(searchPokemon(name))
     }
+
+    useEffect(()=>{
+        console.log(!!pokemonResult)
+        setActiveSearch(!!pokemonResult)
+    },[pokemonResult])
+
+    useEffect(()=>{if(activeSearch)
+        if(pokemonResult.error){
+            setDisplayError('flex')
+        }else{
+            setDisplaySuccess('flex')
+        }
+    },[activeSearch,pokemonResult])
+    
+    useEffect(()=>console.log('pokemonResult',pokemonResult),[pokemonResult])
 
     function handleTryAgain(){
         document.getElementById('inputName').value=""
         setDisplaySuccess('none')
         setDisplayError('none')
+        setActiveSearch(false)
     }
     useEffect(()=>document.getElementById('inputName').addEventListener(
-        "keydown",(e)=>{
-            if (e.code === "Enter")handleSubmit()
-        }
-    ),[])
+        "keydown",(e)=>{if (e.code === "Enter"){
+            dispatch(searchPokemon(document.getElementById('inputName').value))
+        }}
+    ),[dispatch])
 
     return (
             <div className='pokeDexSearch'>
@@ -50,7 +59,7 @@ export default function SearchBar() {
                 <div className='modal successModal' id='successModal' style={{display: displaySuccess}}>
                     <h3>Here is your Pokemon!</h3>
                     <h4>Click on it to see in detail</h4>
-                        {pokemonName&&<PokeCard pokemonName={pokemonName} key={pokemonName}/>}
+                        {(pokemonResult && !pokemonResult.error) && <PokeCard pokemon={pokemonResult}/>}
                         or...
                     <div className='tryAgainButton' onClick={handleTryAgain}>search other</div>           
                 </div>

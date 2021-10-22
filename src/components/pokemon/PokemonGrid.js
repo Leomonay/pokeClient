@@ -1,92 +1,31 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPokedexPageSize, setPokemonZoom, setPokedexPage, setBase, setTotal } from "../../actions/dataActions";
-import appConfig from './../../config'
+import { setPokedexPageSize, setBase, totalPokedexPages } from "../../actions/dataActions";
+import { getPokemonList, getTotalPokemon } from '../../actions/pokemonActions';
 import TypeSelect from './TypeSelect'
 import PokeCard from "./PokeCard";
+import PageButtons from "../navigation/pageButtons";
 import './PokeGrid.css'
-const {host} = appConfig;
 
 export default function PokemonGrid (){
-    const {pokedexPageSize, pokedexPage, base, totalPokes} = useSelector((state)=>state.data)
+    const {pokedexPageSize, pokedexPage, baseRef, base, totalPages} = useSelector((state)=>state.data)
+    const {pokemonList, totalPokemon} = useSelector(state=>state.pokemon)
+    const [filteredList, setFilteredList] = useState([])
+    const [edges, setEdges]=useState([1,12])
     const dispatch = useDispatch()
-    const [pageSize] = useState(12)
-    const [idArray, setIdArray] = useState([])
     const [filterTypes, setFilterTypes] = useState([])
     const [showBases, setShowBases] = useState('none')
-    const [totalPages, setTotalPages] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13])
-    const [bases] = useState({
-        'National Pokedex':'api',
-        'Created in Lab':'created'
-    })
-    const typeStyles = {
-        width: '4rem',
-        fontSize: '.8rem'
-    }
-    const pages= (()=>{
-        let array = [
-            {caption:'<< First', toPage: 1, format:' edges'},
-            {caption: '< Prev', toPage: pokedexPage-1, format:' consecutive'}]
-        let indexes = [-10,-2,-1,0,1,2,10] 
-        indexes.map(dif=>
-            array.push({
-                caption:pokedexPage+dif<1?'<':pokedexPage+dif>totalPages.length?'>':pokedexPage+dif,
-                toPage:pokedexPage+dif,
-                format: (pokedexPage+dif>totalPages.length||pokedexPage+dif<1)?' notPage':dif===0?' currentPage':' goToPage',
-            })
-        )
-        array=[...array,
-            {caption: 'Next >', toPage: pokedexPage+1, format:' consecutive'},
-            {caption: 'Last >>', toPage: totalPages.length, format:' edges'}]
-        return array
-    })()
+    const typeStyles = {width: '4rem',fontSize: '.8rem'}
 
+    const [baseCaption, setBaseCaption]=useState('')
+    useEffect(()=>setBaseCaption(Object.keys(baseRef).find(key=>baseRef[key]===base)),[base,baseRef])
+ 
     useEffect(()=>{
-        document.getElementById('sizeInput').value=pageSize
-    },[pageSize])
+        document.getElementById('sizeInput').value=pokedexPageSize
+    },[pokedexPageSize])
 
-    useEffect(()=>{
-        async function getTotalPokes(){
-            fetch(`${host}/totalpokemon`)
-            .then(response=>response.json())
-            .then(response=> dispatch( setTotal(response) ) )
-        }
-        getTotalPokes()
-    },[dispatch, pageSize, pokedexPage, base])
-    
-    useEffect(() => {
-        function getIdArray(){
-            const firstPokemon=pokedexPageSize*(pokedexPage-1)+1
-            let pokemonsToShow = []
-            let db = bases[base]
-            let limit=Math.min(firstPokemon+pokedexPageSize-1, totalPokes[db])
-            if(limit>0){
-                for (let i=firstPokemon; i<=limit;i++){
-                    pokemonsToShow.push( (db==='created'?'A':'') +i)
-                }
-            }
-            setIdArray(pokemonsToShow)
-        }
-        getIdArray()
-    }, [pokedexPage, pokedexPageSize, base, bases, totalPokes])
-
-    useEffect(() => {
-        function getTotalPages(){
-            let pages = totalPokes[bases[base]]/pokedexPageSize + (
-                totalPokes%pokedexPage===0?0:1
-            )
-            let pagesArray=[]
-            for (let i=1; i<=pages;i++){pagesArray.push(i)}
-            setTotalPages(pagesArray)
-            if(pokedexPage>pagesArray.length)dispatch(setPokedexPage(pagesArray.length))
-        }
-        getTotalPages()
-    }, [pokedexPageSize, base, totalPokes, bases, pokedexPage, dispatch])
-
-    function setPage(page){
-        dispatch(setPokedexPage(parseInt(page)))
-        dispatch(setPokemonZoom(''))
-    }
+    useEffect(()=>dispatch(totalPokedexPages(totalPokemon[base], pokedexPageSize)),
+    [totalPokemon, pokedexPageSize, base,dispatch])
 
     function changePageSize(e){
         let newSize=0
@@ -110,20 +49,47 @@ export default function PokemonGrid (){
         }
     }
     
-    function handleOptionClick(option){
-        dispatch(setBase(option))
+    function handleOptionClick(baseName){
+        dispatch( setBase(baseRef[baseName]))
         handleBaseClick()
     }
+
+    useEffect(()=>{
+        let edges = 
+            pokedexPage===1 ?
+                [1,pokedexPageSize]
+                :[pokedexPageSize*(pokedexPage-1)+1,Math.min(pokedexPageSize*pokedexPage,totalPokemon[base])]
+        setEdges(edges)
+    },[pokedexPage,pokedexPageSize,totalPokemon,base])
+
+    useEffect(()=>dispatch(getTotalPokemon()),[dispatch])
+    
+    useEffect(()=>{
+        dispatch(getPokemonList(edges[0],edges[1],base))
+    },[dispatch, edges,base])
+
+    useEffect(()=>{
+        if(filterTypes.length===0){
+            setFilteredList(pokemonList)
+        }else{
+            setFilteredList(pokemonList.filter(pokemon=>
+                filterTypes.includes(pokemon.types[0]) || filterTypes.includes(pokemon.types[1])
+                ))
+        }
+    },[filterTypes,pokemonList])
 
     return(
         <div className='gridBackground'>
             <div className='gridFilters'>
                 <div className='gridFilterSection'>
                     <div className="subtitle">Filters</div>
-                    <div className='filterOption' onClick={handleBaseClick}>{base} &#9660;</div>
+                    <div className='filterOption' onClick={handleBaseClick}>
+                        {baseCaption} &#9660;
+                        </div>
                         <div className='baseList' style={{display: showBases}}>
-                            <div className='baseOption' onClick={()=>handleOptionClick('National Pokedex')}>National Pokedex</div>
-                            <div className='baseOption' onClick={()=>handleOptionClick('Created in Lab')}>Created in Lab</div>
+                            {Object.keys(baseRef).map((baseName,index)=>
+                                 <div className='baseOption' name={baseName} key={index} onClick={()=>handleOptionClick(baseName)}>{baseName}</div>                            
+                            )}
                         </div>
                     <div className='typesSelection'>
                         <TypeSelect parentFunction={setFilterTypes} typeStyles={typeStyles}/>
@@ -139,30 +105,17 @@ export default function PokemonGrid (){
                             id='sizeInput'
                             />
                         <button className='sizeButton' id='+1' onClick={e=>changePageSize(e)}>&#9650;</button>
-                        page {pokedexPage} of {totalPages.length}
+                        page {pokedexPage} of {totalPages}
                         </div>
                 </div>
             </div>
 
             <div className='gridDiv'>            
                 <div className='pokemonGrid'>
-                    {idArray.map(e=><PokeCard id={e} key={e} types={filterTypes}/>)}
+                    {filteredList.map((pokemon,index)=><PokeCard key={index} types={filterTypes} pokemon={pokemon}/>)}
                 </div>
             </div>
-            <div className='gridPages'>
-                {pages.map((page,index)=>{
-                    let goToPage = page.toPage
-                    let caption = page.caption
-                    let format = page.format
-                    return<div className={'pageButton'+format}
-                        key={index}
-                        onClick={()=>(goToPage>=1 && goToPage<=totalPages.length && goToPage!==pokedexPage)&&setPage(goToPage)}
-                        >{typeof caption == 'string' && caption.includes(' ')?
-                            caption.split(' ').map((word,index)=><div key={index} className={word.length>2?'pageWord':''}>{word}</div>)
-                        :caption}</div>
-                })}
-            </div>
-
+            <PageButtons/>
         </div>
     )
 }

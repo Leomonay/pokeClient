@@ -10,40 +10,15 @@ export function setPokedexPageSize(size){
         payload: size 
     }
 }
-
-export function searchPokemon(name){
+export function totalPokedexPages(totalPokes, pageSize){
     return{
-        type: 'SEARCH_POKEMON',
-        payload: name 
-    }
-}
-export function setPokemonZoom(gif){
-    return{
-        type: 'SET_ZOOM',
-        payload: gif
+        type: 'TOTAL_PAGES',
+        payload: parseInt(totalPokes/pageSize) + ( totalPokes%pageSize === 0 ? 0 : 1 )
     }
 }
 export function setBase(base){
     return{
         type: 'SET_BASE',
         payload: base
-    }
-}
-export function setTotal(total){
-    return{
-        type: 'SET_TOTAL',
-        payload: total
-    }
-}
-export function setNewPokemon(total){
-    return{
-        type: 'SET_NEWPOKE',
-        payload: total
-    }
-}
-export function setNewPokemonType(types){
-    return{
-        type: 'SET_NEWPOKEMON_TYPE',
-        payload: types
     }
 }

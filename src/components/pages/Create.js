@@ -3,12 +3,12 @@ import TypeSelect from '../pokemon/TypeSelect';
 import appConfig from "../../config"
 import './Create.css'
 import Result from '../pokemon/Result';
-import {setNewPokemon, setNewPokemonType} from '../../actions/dataActions'
+import {setNewPokemon, setNewPokemonType} from '../../actions/pokemonActions'
 import { useDispatch, useSelector } from 'react-redux';
 const host = appConfig.host
 
 export default function CreatePokemon() {
-    const {newPokemon}=useSelector(state=>state.data)
+    const {newPokemon}=useSelector(state=>state.pokemon)
     const [newId, setNewId]=useState(null)
     const [statErrors, setStatErrors]=useState([])
     const [displayResult, setDisplayResult]=useState('none')
@@ -33,7 +33,7 @@ export default function CreatePokemon() {
         dispatch(setNewPokemonType(types))
     }
 
-    useEffect(()=>console.log(newPokemon),[newPokemon])
+    // useEffect(()=>console.log(newPokemon),[newPokemon])
 
     function handleStatsChange(e){
         let stat = e.target.id

@@ -1,29 +1,17 @@
 const initialState = {
     pokedexPage: 1,
-    pokemonShown: '',
     pokedexPageSize: 12,
-    pokemonResult: '',
-    base:'National Pokedex',
-    totalPokes:{'api':1500, 'created':500},
-    newPokemon:{}
+    totalPages:0,
+    baseRef:{'National Pokedex':'api','Created in Lab':'server'},
+    base:'api',
 };
 
 export default function dataReducer (state = initialState,action){
     switch (action.type){
-        case 'SET_ZOOM':
-        return{
-            ...state,
-            pokemonShown: action.payload
-        };
         case 'SET_PAGE':
         return{
             ...state,
             pokedexPage: action.payload
-        };
-        case 'SEARCH_POKEMON':
-        return{
-            ...state,
-            pokemonResult: action.payload
         };
         case 'PAGE_SIZE':
         return{
@@ -35,20 +23,10 @@ export default function dataReducer (state = initialState,action){
             ...state,
             base: action.payload
         };
-        case 'SET_TOTAL':
+        case 'TOTAL_PAGES':
             return{
                 ...state,
-                totalPokes: action.payload
-            };
-        case 'SET_NEWPOKE':
-            return{
-                ...state,
-                newPokemon: action.payload
-            };
-        case 'SET_NEWPOKEMON_TYPE':
-            return{
-                ...state,
-                newPokemon: {...state.newPokemon, types:action.payload}
+                totalPages: action.payload
             };
         default: return state;
     }

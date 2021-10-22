@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import './PokeZoom.css'
 
 export default function PokeZoom(props) {
-    const {pokemonShown} = useSelector(state=>state.data)
+    const {pokemonShown} = useSelector(state=>state.pokemon)
 
     return (
         <div className='zoomBackground'>
