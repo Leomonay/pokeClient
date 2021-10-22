@@ -1,11 +1,11 @@
 import appConfig from "../config"
 const {host} = appConfig
 
-export function getPokemonList(start, final, server){
-    const range = start&&final? `?start=${start}&limit=${final}`:''
+export function getPokemon(start, final, server){
+    const range = start&&final? `?init=${start}&final=${final}`:''
     const base = server==='server'? '&base=server' : ''
     return(async function(dispatch){
-        return fetch(`${host}/pokemon${range}${base}`)
+        return fetch(`${host}/pokemons${range}${base}`)
         .then(response=>response.json())
         .then(json=>{
             dispatch(
@@ -35,8 +35,12 @@ export function setPokemonZoom(gif){
     }
 }
 export function searchPokemon(name){
+    if(!name)return{
+        type: 'SEARCH_POKEMON',
+        payload: {error: 'Empty name'}
+    }
     return( async function (dispatch){
-        return fetch(`${host}/pokemon/byname?name=${name}`)
+        return fetch(`${host}/pokemons?name=${name}`)
         .then(response=>response.json())
         .then(json=>dispatch(
             {
@@ -52,6 +56,31 @@ export function searchPokemon(name){
             })
         })
     })
+}
+export function getPokemonDetail(id){
+    return( async function (dispatch){
+        return fetch(`${host}/pokemon/${id}`)
+        .then(response=>response.json())
+        .then(json=>dispatch(
+            {
+                type: 'GET_DETAIL',
+                payload: json
+            }
+        ))
+        .catch(error=>{
+            console.log(error)
+            dispatch({
+                type: 'GET_DETAIL',
+                payload: null
+            })
+        })
+    })
+}
+export function resetPokemonResult(){
+    return{
+        type: 'SEARCH_POKEMON',
+        payload: null
+    }
 }
 export function setNewPokemon(total){
     return{

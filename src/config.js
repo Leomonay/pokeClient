@@ -1,5 +1,35 @@
 const appConfig={
     host: 'https://leomonay-pokedexserver.herokuapp.com',
     // host: 'http://localhost:3003',
+    statsLimits:{
+        'Hp':{min: '5', max: '255'},
+        'Height':{min: '20', max: '2000'},
+        'Weight':{min: '0.1', max: '1000'},
+        'Attack':{min: '5', max: '255'},
+        'Special Attack':{min: '5', max: '255'},
+        'Defense':{min: '5', max: '255'},
+        'Special Defense':{min: '5', max: '255'},
+        'Speed':{min: '5', max: '255'},
+    },
+    backgroundsByType: {
+        bug: 'https://i.pinimg.com/originals/ac/a6/32/aca63286a9f3971bdd0fd1cb453e08fe.png',
+        dark: 'https://pinposters.com/wp-content/uploads/2020/06/amoled-black-hole-wallpaper-715x715.jpg',
+        dragon: 'https://img.freepik.com/free-vector/dark-cave-landscape_1308-16279.jpg',
+        electric: 'https://t4.ftcdn.net/jpg/00/78/66/13/360_F_78661336_lJhntUBgIfUC21TuFgfMoTEvDQT5dBIE.jpg',
+        fairy: 'http://cdn30.us1.fansshare.com/image/wallpaperbackground/blue-sky-background-hd-wallpapers-blue-1177767224.jpg',
+        fighting: 'https://i2.wp.com/recommendmeanime.com/wp-content/uploads/2020/10/anime-tournements.jpg',
+        fire: 'https://images2.alphacoders.com/282/thumb-1920-28242.jpg',
+        flying: 'http://cdn30.us1.fansshare.com/image/wallpaperbackground/blue-sky-background-hd-wallpapers-blue-1177767224.jpg',
+        ghost: 'https://pinposters.com/wp-content/uploads/2020/06/amoled-black-hole-wallpaper-715x715.jpg',
+        grass: 'https://i.pinimg.com/originals/ac/a6/32/aca63286a9f3971bdd0fd1cb453e08fe.png',
+        ground: 'https://img.freepik.com/free-vector/dark-cave-landscape_1308-16279.jpg',
+        ice: 'https://cdn.dribbble.com/users/87294/screenshots/3119991/iceberg_800x600.jpg',
+        normal:  'https://i2.wp.com/recommendmeanime.com/wp-content/uploads/2020/10/anime-tournements.jpg',
+        poison: 'https://i.pinimg.com/originals/ac/a6/32/aca63286a9f3971bdd0fd1cb453e08fe.png',
+        psychic: 'https://pinposters.com/wp-content/uploads/2020/06/amoled-black-hole-wallpaper-715x715.jpg',
+        rock: 'https://img.freepik.com/free-vector/dark-cave-landscape_1308-16279.jpg',
+        steel: 'https://img.freepik.com/free-vector/dark-cave-landscape_1308-16279.jpg',
+        water: 'https://image.freepik.com/vector-gratis/fondo-mar-videoconferencias_52683-43441.jpg',
+    }
 }
 export default appConfig

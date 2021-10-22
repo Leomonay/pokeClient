@@ -5,7 +5,7 @@ import { searchPokemon } from '../../actions/pokemonActions';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function SearchBar() {
-    const {pokemonResult} = useSelector(data=>data.pokemon)
+    const {pokemonResult} = useSelector(state=>state.pokemon)
     const [displayError, setDisplayError] = useState('none')
     const [displaySuccess, setDisplaySuccess] = useState('none')
     const [activeSearch, setActiveSearch] = useState(false)
@@ -17,7 +17,6 @@ export default function SearchBar() {
     }
 
     useEffect(()=>{
-        console.log(!!pokemonResult)
         setActiveSearch(!!pokemonResult)
     },[pokemonResult])
 
@@ -29,8 +28,6 @@ export default function SearchBar() {
         }
     },[activeSearch,pokemonResult])
     
-    useEffect(()=>console.log('pokemonResult',pokemonResult),[pokemonResult])
-
     function handleTryAgain(){
         document.getElementById('inputName').value=""
         setDisplaySuccess('none')
@@ -46,7 +43,6 @@ export default function SearchBar() {
     return (
             <div className='pokeDexSearch'>
                 <input className='searchInput' id='inputName' type='text' placeholder='type exact name'
-                    // onKeyPress={(event)=>{if (event.code == 13)  handleSubmit()}}
                 />
                 <button type='submit' className='searchButton' onClick={handleSubmit}>Search</button>
 
@@ -59,7 +55,10 @@ export default function SearchBar() {
                 <div className='modal successModal' id='successModal' style={{display: displaySuccess}}>
                     <h3>Here is your Pokemon!</h3>
                     <h4>Click on it to see in detail</h4>
-                        {(pokemonResult && !pokemonResult.error) && <PokeCard pokemon={pokemonResult}/>}
+                        
+                        {(pokemonResult && !pokemonResult.error) && 
+                            <PokeCard pokemon={pokemonResult} id={pokemonResult.id}/>
+                        }
                         or...
                     <div className='tryAgainButton' onClick={handleTryAgain}>search other</div>           
                 </div>

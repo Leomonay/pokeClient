@@ -3,7 +3,8 @@ const initialState={
     totalPokemon:{},
     pokemonShown: '',
     pokemonResult:null,
-    newPokemon:{}
+    newPokemon:{},
+    pokemonDetail:{}
 }
 
 export default function pokemonReducer (state = initialState,action){
@@ -32,7 +33,12 @@ export default function pokemonReducer (state = initialState,action){
             return{
                 ...state,
                 newPokemon: action.payload
-            };
+            };        
+        case 'GET_DETAIL':
+        return{
+            ...state,
+            pokemonDetail: action.payload
+        };
         case 'SET_NEWPOKEMON_TYPE':
             return{
                 ...state,

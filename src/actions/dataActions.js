@@ -1,4 +1,4 @@
-export function setPokedexPage(page){
+export function setCurrentPage(page){
     return{
         type: 'SET_PAGE',
         payload: page 

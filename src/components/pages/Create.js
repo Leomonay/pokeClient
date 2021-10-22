@@ -1,29 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TypeSelect from '../pokemon/TypeSelect';
 import appConfig from "../../config"
 import './Create.css'
 import Result from '../pokemon/Result';
-import {setNewPokemon, setNewPokemonType} from '../../actions/pokemonActions'
+import {setNewPokemon, setNewPokemonType } from '../../actions/pokemonActions'
 import { useDispatch, useSelector } from 'react-redux';
-const host = appConfig.host
+const {statsLimits,host} = appConfig.host
 
 export default function CreatePokemon() {
     const {newPokemon}=useSelector(state=>state.pokemon)
     const [newId, setNewId]=useState(null)
     const [statErrors, setStatErrors]=useState([])
     const [displayResult, setDisplayResult]=useState('none')
-    const statsLimits= useMemo(()=>{
-        return {
-            'Hp':{min: '5', max: '255'},
-            'Height':{min: '20', max: '2000'},
-            'Weight':{min: '0.1', max: '1000'},
-            'Attack':{min: '5', max: '255'},
-            'Special Attack':{min: '5', max: '255'},
-            'Defense':{min: '5', max: '255'},
-            'Special Defense':{min: '5', max: '255'},
-            'Speed':{min: '5', max: '255'},
-        }
-    },[])
+
     const dispatch = useDispatch()
 
     function handleNameChange(e){
@@ -32,8 +21,6 @@ export default function CreatePokemon() {
     function getSelectedTypes(types){
         dispatch(setNewPokemonType(types))
     }
-
-    // useEffect(()=>console.log(newPokemon),[newPokemon])
 
     function handleStatsChange(e){
         let stat = e.target.id
@@ -72,7 +59,7 @@ export default function CreatePokemon() {
             setStatErrors(errors)
         };
         handleErrors()
-    },[newPokemon, statsLimits])
+    },[newPokemon])
  
     function sendPokemon(){
         fetch(`${host}/pokemon`,{

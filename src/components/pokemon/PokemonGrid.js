@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPokedexPageSize, setBase, totalPokedexPages } from "../../actions/dataActions";
-import { getPokemonList, getTotalPokemon } from '../../actions/pokemonActions';
+import { getPokemon, getTotalPokemon } from '../../actions/pokemonActions';
 import TypeSelect from './TypeSelect'
 import PokeCard from "./PokeCard";
 import PageButtons from "../navigation/pageButtons";
 import './PokeGrid.css'
 
 export default function PokemonGrid (){
-    const {pokedexPageSize, pokedexPage, baseRef, base, totalPages} = useSelector((state)=>state.data)
+    const {pokedexPageSize, currentPage, baseRef, base, totalPages} = useSelector((state)=>state.data)
     const {pokemonList, totalPokemon} = useSelector(state=>state.pokemon)
     const [filteredList, setFilteredList] = useState([])
     const [edges, setEdges]=useState([1,12])
@@ -17,15 +17,20 @@ export default function PokemonGrid (){
     const [showBases, setShowBases] = useState('none')
     const typeStyles = {width: '4rem',fontSize: '.8rem'}
 
+    const [totalPokes, setTotalPokes]=useState(0)
+    //current page: que seleccione según la base desde currentPages Global
+    //totalPokes: que seleccione según la base del totalPokes total
+
     const [baseCaption, setBaseCaption]=useState('')
     useEffect(()=>setBaseCaption(Object.keys(baseRef).find(key=>baseRef[key]===base)),[base,baseRef])
- 
+    useEffect(()=>setTotalPokes(totalPokemon[base]),[base, totalPokemon])
+
     useEffect(()=>{
         document.getElementById('sizeInput').value=pokedexPageSize
     },[pokedexPageSize])
 
-    useEffect(()=>dispatch(totalPokedexPages(totalPokemon[base], pokedexPageSize)),
-    [totalPokemon, pokedexPageSize, base,dispatch])
+    useEffect(()=>dispatch(totalPokedexPages(totalPokes, pokedexPageSize)),
+    [totalPokes, pokedexPageSize,dispatch])
 
     function changePageSize(e){
         let newSize=0
@@ -55,18 +60,16 @@ export default function PokemonGrid (){
     }
 
     useEffect(()=>{
-        let edges = 
-            pokedexPage===1 ?
-                [1,pokedexPageSize]
-                :[pokedexPageSize*(pokedexPage-1)+1,Math.min(pokedexPageSize*pokedexPage,totalPokemon[base])]
-        setEdges(edges)
-    },[pokedexPage,pokedexPageSize,totalPokemon,base])
+        if(!currentPage || !pokedexPageSize || !totalPokes)return
+        if(currentPage===1)setEdges([1,pokedexPageSize])
+        if(currentPage>1)setEdges(
+            [ pokedexPageSize*(currentPage-1)+1 , 
+                Math.min(pokedexPageSize*currentPage,totalPokes) ]
+        )
+    },[currentPage,pokedexPageSize,totalPokes])
 
     useEffect(()=>dispatch(getTotalPokemon()),[dispatch])
-    
-    useEffect(()=>{
-        dispatch(getPokemonList(edges[0],edges[1],base))
-    },[dispatch, edges,base])
+    useEffect(()=> dispatch(getPokemon(edges[0],edges[1],base)) ,[dispatch, edges,base])
 
     useEffect(()=>{
         if(filterTypes.length===0){
@@ -105,14 +108,16 @@ export default function PokemonGrid (){
                             id='sizeInput'
                             />
                         <button className='sizeButton' id='+1' onClick={e=>changePageSize(e)}>&#9650;</button>
-                        page {pokedexPage} of {totalPages}
+                        page {currentPage} of {totalPages}
                         </div>
                 </div>
             </div>
 
             <div className='gridDiv'>            
                 <div className='pokemonGrid'>
-                    {filteredList.map((pokemon,index)=><PokeCard key={index} types={filterTypes} pokemon={pokemon}/>)}
+                    {filteredList[0] && filteredList.map((pokemon,index)=>
+                        <PokeCard key={index} id={edges[0]+index} types={filterTypes} pokemon={pokemon}/>
+                    )}
                 </div>
             </div>
             <PageButtons/>

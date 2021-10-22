@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 // import loading from '../../../src/assets/imgs/esperando.gif'
 
 export default function PokeCard(props) {
-    const {pokemon}=props
+    const {pokemon, id}=props
     const {pokemonShown} = useSelector(state=>state.pokemon)
     const dispatch = useDispatch()
 
@@ -18,7 +18,7 @@ export default function PokeCard(props) {
     }
     
     return (
-        <Link className='toDetail' to={`/pokemon/${pokemon.id}`}>
+        <Link className='toDetail' to={`/pokemon/${id}`}>
             <div className={'cardBackground ' +pokemon.types[0]} onMouseOver={()=>handleMouseOver()}>
                 <div className='cardTitle'>{pokemon.name}</div>
                 <div>
