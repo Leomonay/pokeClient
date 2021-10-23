@@ -1,11 +1,13 @@
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { setCurrentPage } from "../../actions/dataActions" 
+import { setcurrentPages } from "../../actions/dataActions" 
 import { setPokemonZoom } from "../../actions/pokemonActions"
 import './pageButtons.css'
 
 export default function PageButtons() {
-    const {currentPage,totalPages} = useSelector(state=>state.data)
+    const {currentPages,totalPages,base} = useSelector(state=>state.data)
     const dispatch = useDispatch()
+    const [currentPage, setCurrentPage]=useState(currentPages[base])
 
     const pages= (()=>{
         let array = [
@@ -26,9 +28,11 @@ export default function PageButtons() {
     })()
 
     function setPage(page){
-        dispatch(setCurrentPage(parseInt(page)))
+        dispatch(setcurrentPages({...currentPages,[base]:parseInt(page)}))
         dispatch(setPokemonZoom(''))
     }
+
+    useEffect(()=>setCurrentPage(currentPages[base]),[currentPages,base])
 
     function PageButton(page,index){
         let goToPage = page.toPage
@@ -37,7 +41,7 @@ export default function PageButtons() {
         return(
             <div className={'pageButton'+format}
             key={index}
-            onClick={()=>(goToPage>=1 && goToPage<=totalPages && goToPage!==currentPage)&&setPage(goToPage)}
+            onClick={()=>(goToPage>=1 && goToPage<=totalPages && goToPage!==currentPages)&&setPage(goToPage)}
             >{typeof caption == 'string' && caption.includes(' ')?
                 caption.split(' ').map((word,index)=><div key={index} className={word.length>2?'pageWord':''}>{word}</div>)
             :caption}</div>

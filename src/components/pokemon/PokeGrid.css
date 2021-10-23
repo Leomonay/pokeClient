@@ -87,6 +87,23 @@
     height: calc(100% - 7.5rem);
     margin: .5rem 0
 }
+.waitingBackground{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    /* border-color: ; */
+    font-size: 3rem;
+    font-weight: bolder;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(whitesmoke, rgba(255,255,255,0.3));
+    border-radius: 1rem;
+}
+.waitingImg{
+    height: 80%;
+    margin-bottom: -5rem;
+}
 .pokemonGrid{
     display: flex;
     flex-wrap: wrap;

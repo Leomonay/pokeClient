@@ -1,16 +1,3 @@
-.cardLoading{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 7rem;
-    height: 10rem;
-    background: linear-gradient(45deg, silver,grey,silver);
-    margin: .2rem;
-    border-radius: 1rem;
-}
-.cardLoadingImg{
-    height: 50%;
-}
 .toDetail{
     text-decoration: none;
 }

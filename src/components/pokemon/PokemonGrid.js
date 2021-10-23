@@ -5,19 +5,21 @@ import { getPokemon, getTotalPokemon } from '../../actions/pokemonActions';
 import TypeSelect from './TypeSelect'
 import PokeCard from "./PokeCard";
 import PageButtons from "../navigation/pageButtons";
+import loading from '../../../src/assets/imgs/rotatingPokeBall.gif'
 import './PokeGrid.css'
 
 export default function PokemonGrid (){
-    const {pokedexPageSize, currentPage, baseRef, base, totalPages} = useSelector((state)=>state.data)
+    const {pokedexPageSize, currentPages, baseRef, base, totalPages} = useSelector((state)=>state.data)
     const {pokemonList, totalPokemon} = useSelector(state=>state.pokemon)
     const [filteredList, setFilteredList] = useState([])
-    const [edges, setEdges]=useState([1,12])
+    const [firstPokemon, setFirstPokemon]=useState([1,12])
     const dispatch = useDispatch()
     const [filterTypes, setFilterTypes] = useState([])
     const [showBases, setShowBases] = useState('none')
     const typeStyles = {width: '4rem',fontSize: '.8rem'}
     const [totalPokes, setTotalPokes]=useState(0)
     const [baseCaption, setBaseCaption]=useState('')
+    const [currentPage, setCurrentPage]=useState(currentPages[base])
 
     function changePageSize(e){
         let newSize=0
@@ -46,17 +48,19 @@ export default function PokemonGrid (){
         handleBaseClick()
     }
 
-    useEffect(()=>{
-        if(!currentPage || !pokedexPageSize || !totalPokes)return
-        if(currentPage===1)setEdges([1,pokedexPageSize])
-        if(currentPage>1)setEdges(
-            [ pokedexPageSize*(currentPage-1)+1 , 
-                Math.min(pokedexPageSize*currentPage,totalPokes) ]
-        )
-    },[currentPage,pokedexPageSize,totalPokes])
+    useEffect(()=>setCurrentPage(currentPages[base]),[currentPages,base])
 
     useEffect(()=>dispatch(getTotalPokemon()),[dispatch])
-    useEffect(()=> dispatch(getPokemon(edges[0],edges[1],base)) ,[dispatch, edges,base])
+
+    useEffect(()=>{
+        if(!currentPage || !pokedexPageSize || !totalPokes)return
+
+        const first = currentPage===1 ? 1 : pokedexPageSize*(currentPage-1)+1 
+        const last = currentPage===1 ? pokedexPageSize : Math.min(pokedexPageSize*currentPage,totalPokes)
+        setFirstPokemon(first)
+        dispatch(getPokemon(first, last, base))
+
+    },[currentPage,pokedexPageSize,totalPokes, base, dispatch])
 
     useEffect(()=>{
         if(filterTypes.length===0){
@@ -77,6 +81,19 @@ export default function PokemonGrid (){
 
     useEffect(()=>dispatch(totalPokedexPages(totalPokes, pokedexPageSize)),
     [totalPokes, pokedexPageSize,dispatch])
+
+    function PokeList(props){
+        const {list} = props
+        return list.map((pokemon,index)=>{
+            const pokeId = ( base==='server' ? 'A' : '' ) + (firstPokemon+index)
+            return<PokeCard key={index} id={pokeId} types={filterTypes} pokemon={pokemon}/>}
+        )}
+
+    function Waiting(){
+        return<div className='waitingBackground'>
+            <img src={loading} alt='' className='waitingImg'/>
+            Loading Results...
+        </div>}
 
     return(
         <div className='gridBackground'>
@@ -112,10 +129,7 @@ export default function PokemonGrid (){
 
             <div className='gridDiv'>            
                 <div className='pokemonGrid'>
-                    {filteredList[0] && filteredList.map((pokemon,index)=>{
-                        const pokeId = ( base==='server' ? 'A' : '' ) + (edges[0]+index)
-                        return<PokeCard key={index} id={pokeId} types={filterTypes} pokemon={pokemon}/>
-                    })}
+                    {filteredList[0] ? <PokeList list={filteredList}/> : <Waiting/>}
                 </div>
             </div>
             <PageButtons/>

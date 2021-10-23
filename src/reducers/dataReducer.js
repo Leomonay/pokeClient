@@ -1,5 +1,5 @@
 const initialState = {
-    currentPage: 1,
+    currentPages: {api: 1, server:1},
     pokedexPageSize: 12,
     totalPages:0,
     baseRef:{'National Pokedex':'api','Created in Lab':'server'},
@@ -12,7 +12,7 @@ export default function dataReducer (state = initialState,action){
         case 'SET_PAGE':
         return{
             ...state,
-            currentPage: action.payload
+            currentPages: action.payload
         };
         case 'ACTIVE_SEARCH':
             return{

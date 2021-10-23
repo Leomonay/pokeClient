@@ -1,4 +1,4 @@
-export function setCurrentPage(page){
+export function setcurrentPages(page){
     return{
         type: 'SET_PAGE',
         payload: page 

@@ -107,8 +107,11 @@
     border-top-right-radius: 0;    
 }
 .whiteScreen{
-    background: linear-gradient(45deg, cyan, azure, cyan);
-    background-color: none ;
+    background-color: cyan ;
+    background-image: url('../../assets/imgs/rotatingPokeBall.gif');
+    background-position: center ;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 .outScreen{
     animation-duration: 1.5s;
