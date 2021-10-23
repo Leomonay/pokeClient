@@ -4,6 +4,7 @@ const initialState = {
     totalPages:0,
     baseRef:{'National Pokedex':'api','Created in Lab':'server'},
     base:'api',
+    creationErrors:{}
 };
 
 export default function dataReducer (state = initialState,action){
@@ -33,6 +34,11 @@ export default function dataReducer (state = initialState,action){
                 ...state,
                 totalPages: action.payload
             };
-        default: return state;
+        case 'SET_ERRORS':
+            return{
+                ...state,
+                creationErrors: action.payload
+            };
+            default: return state;
     }
 }

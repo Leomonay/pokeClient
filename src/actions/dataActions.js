@@ -22,3 +22,9 @@ export function setBase(base){
         payload: base
     }
 }
+export function setErrors(errors){
+    return{
+        type: 'SET_ERRORS',
+        payload: errors
+    }
+}

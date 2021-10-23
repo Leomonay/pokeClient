@@ -16,21 +16,8 @@ export default function PokemonGrid (){
     const [filterTypes, setFilterTypes] = useState([])
     const [showBases, setShowBases] = useState('none')
     const typeStyles = {width: '4rem',fontSize: '.8rem'}
-
     const [totalPokes, setTotalPokes]=useState(0)
-    //current page: que seleccione según la base desde currentPages Global
-    //totalPokes: que seleccione según la base del totalPokes total
-
     const [baseCaption, setBaseCaption]=useState('')
-    useEffect(()=>setBaseCaption(Object.keys(baseRef).find(key=>baseRef[key]===base)),[base,baseRef])
-    useEffect(()=>setTotalPokes(totalPokemon[base]),[base, totalPokemon])
-
-    useEffect(()=>{
-        document.getElementById('sizeInput').value=pokedexPageSize
-    },[pokedexPageSize])
-
-    useEffect(()=>dispatch(totalPokedexPages(totalPokes, pokedexPageSize)),
-    [totalPokes, pokedexPageSize,dispatch])
 
     function changePageSize(e){
         let newSize=0
@@ -81,6 +68,16 @@ export default function PokemonGrid (){
         }
     },[filterTypes,pokemonList])
 
+    useEffect(()=>setBaseCaption(Object.keys(baseRef).find(key=>baseRef[key]===base)),[base,baseRef])
+    useEffect(()=>setTotalPokes(totalPokemon[base]),[base, totalPokemon])
+
+    useEffect(()=>{
+        document.getElementById('sizeInput').value=pokedexPageSize
+    },[pokedexPageSize])
+
+    useEffect(()=>dispatch(totalPokedexPages(totalPokes, pokedexPageSize)),
+    [totalPokes, pokedexPageSize,dispatch])
+
     return(
         <div className='gridBackground'>
             <div className='gridFilters'>
@@ -115,9 +112,10 @@ export default function PokemonGrid (){
 
             <div className='gridDiv'>            
                 <div className='pokemonGrid'>
-                    {filteredList[0] && filteredList.map((pokemon,index)=>
-                        <PokeCard key={index} id={edges[0]+index} types={filterTypes} pokemon={pokemon}/>
-                    )}
+                    {filteredList[0] && filteredList.map((pokemon,index)=>{
+                        const pokeId = ( base==='server' ? 'A' : '' ) + (edges[0]+index)
+                        return<PokeCard key={index} id={pokeId} types={filterTypes} pokemon={pokemon}/>
+                    })}
                 </div>
             </div>
             <PageButtons/>

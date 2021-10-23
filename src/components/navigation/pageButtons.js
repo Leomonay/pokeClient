@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { setCurrentPage } from "../../actions/dataActions" 
 import { setPokemonZoom } from "../../actions/pokemonActions"
+import './pageButtons.css'
 
 export default function PageButtons() {
     const {currentPage,totalPages} = useSelector(state=>state.data)

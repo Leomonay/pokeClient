@@ -1,28 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import TypeSelect from '../pokemon/TypeSelect';
-import appConfig from "../../config"
 import './Create.css'
 import Result from '../pokemon/Result';
-import {setNewPokemon, setNewPokemonType } from '../../actions/pokemonActions'
+import {createNewPokemon, setNewPokemon, setNewPokemonType } from '../../actions/pokemonActions'
 import { useDispatch, useSelector } from 'react-redux';
-const {statsLimits,host} = appConfig
+import { utils } from '../../utils';
+import { setErrors } from '../../actions/dataActions';
+const {statsLimits, errorItems} = utils
 
 export default function CreatePokemon() {
     const {newPokemon}=useSelector(state=>state.pokemon)
-    const [newId, setNewId]=useState(null)
-    const [statErrors, setStatErrors]=useState([])
-    const [displayResult, setDisplayResult]=useState('none')
-
-    useEffect(()=>console.log(statsLimits),[])
-
+    const {creationErrors}=useSelector(state=>state.data)
     const dispatch = useDispatch()
 
-    function handleNameChange(e){
-        dispatch(setNewPokemon({...newPokemon,name: e.target.value}))
-    }
-    function getSelectedTypes(types){
-        dispatch(setNewPokemonType(types))
-    }
+    function handleNameChange(e){dispatch(setNewPokemon({...newPokemon,name: e.target.value}))}
+
+    function getSelectedTypes(types){dispatch(setNewPokemonType(types))}
 
     function handleStatsChange(e){
         let stat = e.target.id
@@ -30,6 +23,7 @@ export default function CreatePokemon() {
             {...newPokemon,stats:{
                 ...newPokemon.stats,[stat]: Number(e.target.value)}}))
     }
+    
     function handleImageChange(e){
         let ref = {'Icon':'icon','Main image':'front','Back icon':'backIcon'}
         let item = ref[e.target.id]
@@ -39,49 +33,18 @@ export default function CreatePokemon() {
             }
         ))
     }
-    
-    useEffect(()=>{
-        function handleErrors(){
-            let errors=[]
-            if (!newPokemon.name)errors.push({error: 'Name: ', detail: `a pokemon needs a name!`})
-            if (!newPokemon.types || newPokemon.types.length===0)errors.push({error: 'Types: ', detail: `at least one type must be selected.`})
-            if (!newPokemon.images || !newPokemon.images.front)errors.push({error: 'Images: ', detail: `at least a front image must be set.`})
-            let statsSum = 0
-            for (let stat of Object.keys(statsLimits)){
-                if (!newPokemon.stats|| !newPokemon.stats[stat] || newPokemon.stats[stat]<statsLimits[stat].min || newPokemon.stats[stat]>statsLimits[stat].max){
-                    errors.push({error: [stat]+": ", detail: `value must be between ${statsLimits[stat].min} and ${statsLimits[stat].max}.`})
-                }
-                if (newPokemon.stats && stat!=="Height"&&stat!=="Weight"){
-                    statsSum += newPokemon.stats[stat]
-                }
-            }
-            if (statsSum>600){
-                errors.push({error: 'Total Stats: ', detail: `the sum of Hp, Attack, Special Attack, Defense, Special Defense and Speed must be equal to or less than 600.`})
-            }
-            setStatErrors(errors)
-        };
-        handleErrors()
-    },[newPokemon])
- 
-    function sendPokemon(){
-        fetch(`${host}/pokemon`,{
-            method:'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body:JSON.stringify(newPokemon)
+
+    function Errors(props){
+        const {errors} = props
+        const keys = Object.keys(errors)
+        if(keys.length>0)return keys.map(key=>{
+            const item = key[0].toUpperCase()+key.slice(1)
+            return<li key={key}><b>{item+": "}</b>{errors[key]}</li>
         })
-        .then(resp=>resp.json())
-        .then(resp=>{
-            if(resp.error){
-                setStatErrors([resp])
-            }else{
-                setNewId(resp.id)
-                setDisplayResult('flex')
-            }
-        })
+        return<></>
     }
+
+    useEffect(()=>dispatch( setErrors (errorItems(newPokemon))),[newPokemon,dispatch])
 
     return (
         <div className='newPokemonBackground'>
@@ -138,21 +101,15 @@ export default function CreatePokemon() {
                                 </div>
                             )}
                         </div>
-                        <div className='errorMessages'>{
-                            statErrors.length>0?
-                                statErrors.map(e=>
-                                <li key={e.error}>
-                                    <b>{e.error+" "}</b>
-                                    {e.detail}
-                                </li>) :""
-                            }
+                        <div className='errorMessages'>
+                            {<Errors errors={creationErrors}/>}
                             <div className='createButton'
-                                style={{display:statErrors.length===0?'flex':'none'}}
-                                onClick={sendPokemon}
+                                style={{display:Object.keys(creationErrors).length===0?'flex':'none'}}
+                                onClick={()=>dispatch(createNewPokemon(newPokemon))}
                                 >Create!
                             </div>
-                            {newId&&<div className='creationResult'>
-                                <Result id={newId} display={displayResult} parentFunction={setNewId}/>
+                            {newPokemon.pokemon&&<div className='creationResult'>
+                                <Result id={newPokemon.pokemon.id} display={newPokemon.pokemon?'flex':'none'} pokemon={newPokemon.pokemon}/>
                             </div>}
                         </div>
                     </div>

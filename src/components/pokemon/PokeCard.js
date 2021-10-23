@@ -4,7 +4,7 @@ import { setPokemonZoom } from '../../actions/pokemonActions';
 import Type from './Types';
 import './PokeCard.css'
 import { Link } from 'react-router-dom';
-// import loading from '../../../src/assets/imgs/esperando.gif'
+import loading from '../../../src/assets/imgs/esperando.gif'
 
 export default function PokeCard(props) {
     const {pokemon, id}=props
@@ -12,9 +12,15 @@ export default function PokeCard(props) {
     const dispatch = useDispatch()
 
     function handleMouseOver(){
-        if (pokemon.bigImage!==pokemonShown){
+        if (pokemon.bigImage && pokemon.bigImage!==pokemonShown){
             dispatch(setPokemonZoom(pokemon.bigImage))
         }
+    }
+
+    if(!pokemon){
+        <div className='cardLoading'>
+            <img src={loading} alt='loading'></img>
+        </div>
     }
     
     return (

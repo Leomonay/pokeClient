@@ -44,6 +44,11 @@ export default function pokemonReducer (state = initialState,action){
                 ...state,
                 newPokemon: {...state.newPokemon, types:action.payload}
             };
+        case 'CREATE_NEW':
+            return{
+                ...state,
+                newPokemon: action.payload
+            };
         default: return state;
     }
 }

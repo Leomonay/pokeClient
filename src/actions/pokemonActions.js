@@ -94,3 +94,29 @@ export function setNewPokemonType(types){
         payload: types
     }
 }
+export function createNewPokemon(poke){
+    return (async function (dispatch){
+        fetch(`${host}/pokemon`,{
+            method:'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:JSON.stringify(poke)
+        })
+        .then(resp=>resp.json())
+        .then(json=>{
+            if(json.error){
+                dispatch({
+                        type: 'SET_ERRORS',
+                        payload: json.error
+                    })
+            }else{
+                dispatch({
+                        type: 'CREATE_NEW',
+                        payload: json
+                    })
+            }
+        })
+    })
+}

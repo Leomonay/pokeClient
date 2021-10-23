@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {useParams} from 'react-router';
-import { resetPokemonResult, getPokemonDetail } from '../../actions/pokemonActions';
-import appConfig from '../../config'
+import { resetPokemonResult, getPokemonDetail, setNewPokemon } from '../../actions/pokemonActions';
+import { utils } from '../../utils';
 import Type from '../pokemon/Types'
 import './Detail.css'
-const {backgroundsByType}=appConfig
+const {backgroundsByType}=utils
 
 export default function Detail() {
     const {pokemonDetail} = useSelector(state=>state.pokemon)
@@ -14,12 +14,13 @@ export default function Detail() {
     const {id} = useParams();
     const dispatch = useDispatch()
 
-    useEffect(()=>dispatch(resetPokemonResult()),[dispatch])
+    useEffect(()=>{
+        dispatch(resetPokemonResult())
+        dispatch(setNewPokemon({}))},[dispatch])
 
-    useEffect(()=>dispatch(getPokemonDetail((base==='server'?'A':'')+id)),[id,dispatch,base])
+    useEffect(()=>dispatch(getPokemonDetail(id)),[id,dispatch,base])
 
     useEffect(()=>{
-        console.log(pokemonDetail)
         pokemonDetail.imageBack?setBackClass('detailBack'):setBackClass('detailBack fromFront')
     },[pokemonDetail])
 
