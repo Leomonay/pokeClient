@@ -15,7 +15,7 @@
 .gridFilterSection{
     display:flex;
     width: 100%;
-    height: 2rem;
+    /* height: 2rem; */
 }
 .typesSelection{
     width: 80%;
@@ -26,7 +26,7 @@
     align-items: center;
     justify-content: center;
     min-width: 9rem;
-    margin: .1rem 0;
+    margin: .1rem 0.3rem;
     cursor: pointer;
     background: rgba(255, 255,255, 0.5);
     border: 1px solid white;
@@ -137,6 +137,9 @@
     .pokemonGrid{
         border-width: 2px;
         width: 100%;
+    }
+    .gridFilterSection{
+        flex-wrap: wrap;
     }
     .gridFilters{
         flex-direction: column;

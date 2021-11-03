@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPokemonZoom } from '../../actions/pokemonActions';
-import Type from './Types';
+import Type from '../types/Types';
 import './PokeCard.css'
 import { Link } from 'react-router-dom';
 

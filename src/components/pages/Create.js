@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import TypeSelect from '../pokemon/TypeSelect';
+import TypeSelector from '../types/TypeSelector';
 import './Create.css'
 import Result from '../pokemon/Result';
 import {createNewPokemon, setNewPokemon, setNewPokemonType } from '../../actions/pokemonActions'
@@ -37,7 +37,7 @@ export default function CreatePokemon() {
     function Errors(props){
         const {errors} = props
         const keys = Object.keys(errors)
-        if(keys.length>0)return keys.map(key=>{
+        if(keys.length>0) return keys.map(key=>{
             const item = key[0].toUpperCase()+key.slice(1)
             return<li key={key}><b>{item+": "}</b>{errors[key]}</li>
         })
@@ -55,8 +55,7 @@ export default function CreatePokemon() {
                 <div className='createHeader'>
                     <div className='nameInputLabel'>Name</div>
                     <input type='text' className='nameTextInput' id='createNameInput' placeholder='New pokemon name' onChange={(e)=>handleNameChange(e)}/>
-                    Type:
-                    <TypeSelect parentFunction={getSelectedTypes} limit='2'/>
+                    <TypeSelector select={getSelectedTypes} limit='2'/>
 
                 </div>
 

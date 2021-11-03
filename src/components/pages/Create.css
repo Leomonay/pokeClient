@@ -1,6 +1,6 @@
 .newPokemonBackground{
     display: flex;
-    background-image: url('https://cdn2.bulbagarden.net/upload/thumb/0/0c/Decrepit_Lab_RTDX.png/1200px-Decrepit_Lab_RTDX.png');
+    background-image: url('https://cdn2.bulbagarden.net/upload/0/0c/Decrepit_Lab_RTDX.png');
     background-size:cover;
     background-position: center;
     width: 100%;

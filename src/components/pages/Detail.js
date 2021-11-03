@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {useParams} from 'react-router';
 import { resetPokemonResult, getPokemonDetail, setNewPokemon } from '../../actions/pokemonActions';
 import { utils } from '../../utils';
-import Type from '../pokemon/Types'
+import Type from '../types/Types'
 import './Detail.css'
 const {backgroundsByType}=utils
 
