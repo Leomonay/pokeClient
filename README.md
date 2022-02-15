@@ -1,6 +1,8 @@
 # Pokedex Client
 Client for Pokedex project made in ReactJS (Server on Heroku)
 
+You can see it working [here](https://leomonay-pokedex.vercel.app/).
+
 ## Functions:
 The app must have 4 pages:
 - <b>Landing Page: </b>
